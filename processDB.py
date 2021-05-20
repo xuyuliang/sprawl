@@ -54,3 +54,56 @@ def deleteDownloadbySeasonID(seasonID):
 # deleteDownloadbyID(1)
 # deleteDownloadbySeasonID(1)
 
+### 处理play表
+# （1）写入一本剧
+# （2）删除一本剧，连带删除相关的所有season
+# （3）显示一本剧，连带显示所有的season
+# （4） 显示你收藏的所有剧
+
+def addPlay(ID,name,memotxt):
+    sql = "insert into play(ID,name,memotxt) values(?,?,?)"
+    cur.execute(sql, [ID,name,memotxt])
+    conn.commit()
+
+def deletePlay(ID):
+    sql1 = "delete from play where ID = ?"
+    sql2 = "delete from season where playID = ?"
+    cur.execute(sql1,[ID])
+    cur.execute(sql2,[ID])
+    conn.commit()
+
+def fetchPlayandSeasons(ID):
+    sql1 = "select name,memotxt from play where ID = ?"
+    sql2 = "select ID,name from season where playID = ?"
+    cur.execute(sql1,[ID])
+    result1 = cur.fetchall()
+    cur.execute(sql2,[ID])
+    result2 = cur.fetchall()
+    print("play:",result1)
+    print("seasons:",result2)
+    return (result1,result2)
+
+# addPlay(1,'Young Sheldon','备注 小谢尔顿')
+# s1,s2 = fetchPlayandSeasons(1)
+# print(s1)  # [('Young Sheldon', '备注 小谢尔顿')]
+# print(s2)  # [(4, 'Young Sheldon 第四季'), (5, 'Young Sheldon 第三季')]
+
+### 处理season表
+# （1）写入一个新season ， 需要传入playID，season的name，
+# （2）修改 ；不要修改了，删了重写
+# （3）删除
+
+def addSeason(name,playID):
+    sql = "insert into season(name,playID) values(?,?)"
+    cur.execute(sql,[name,playID])
+    conn.commit()
+
+def deleteSeason(ID):
+    sql = "delete from season where ID = ? "
+    cur.execute(sql,[ID])
+    conn.commit()
+
+# addSeason('Young Sheldon 第一季',1)
+# fetchPlayandSeasons(1)
+deleteSeason(6)
+fetchPlayandSeasons(1)
