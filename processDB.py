@@ -93,17 +93,62 @@ def fetchPlayandSeasons(ID):
 # （2）修改 ；不要修改了，删了重写
 # （3）删除
 
-def addSeason(name,playID):
-    sql = "insert into season(name,playID) values(?,?)"
-    cur.execute(sql,[name,playID])
-    conn.commit()
+def addSeason(enName,chName):
+    sql = "select ID from season where enName=? and chName=?"
+    cur.execute(sql,[enName,chName])
+    rows = cur.fetchall()
+    seasonID = 9999
+    if len(rows) > 0:
+        seasonID, = rows[0]
+    if len(rows) == 0:  # 没有
+        sql = "insert into season(enName,chName) values(?,?)"
+        cur.execute(sql,[enName,chName])
+        conn.commit()
+        sql = "select ID from season where enName=? and chName=?"
+        cur.execute(sql, [enName, chName])
+        re = cur.fetchall()
+        if len(re)>0:
+            seasonID, = re[0]
+        else:
+            seasonID = 9999
+
+    return seasonID
+
+
 
 def deleteSeason(ID):
     sql = "delete from season where ID = ? "
     cur.execute(sql,[ID])
     conn.commit()
 
-# addSeason('Young Sheldon 第一季',1)
+
+
+# n = addSeason('breaking bad','极品毒师')
+# print(n)
 # fetchPlayandSeasons(1)
-deleteSeason(6)
-fetchPlayandSeasons(1)
+# deleteSeason(6)
+# fetchPlayandSeasons(1)
+
+### 处理日历calendar
+# 写入一条记录
+def direct_insert_calendar(seasonID,dueDate,SnEm):
+    sql = "select * from calendar where seasonID=? and dueDate =? and SnEM=?"
+    cur.execute(sql,[seasonID,dueDate,SnEm])
+    re = cur.fetchall()
+    if len(re) > 0 :
+        return
+    sql = "insert into calendar(seasonID,dueDate,SnEm) values(?,?,?)"
+    cur.execute(sql,[seasonID,dueDate,SnEm])
+    conn.commit()
+
+def addRecord_Calendar(dueDate, enName, chName, sn):
+    seasonID = addSeason(enName,chName)
+    direct_insert_calendar(seasonID,dueDate,sn)
+
+def findBroadcasting(enName):
+    sql = "select * from season INNER join calendar on season.ID = calendar.seasonID and season.ID = 109"
+
+# sriqi = "2021-06-01"
+# addRecord_Calendar(sriqi,"Young Sheldon 第四季","洋谢尔顿 第四季","s4e5")
+# direct_insert_calendar(1,sriqi,'haha')
+

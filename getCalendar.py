@@ -1,18 +1,29 @@
 import datetime
+import calendar
+import time
 
+import processDB
 import requests
 from lxml import etree
-r = requests.get('http://huo360.cc/calendar?date=2021-06-01')
-print(r.status_code)
-html = r.text
-txt = etree.HTML(html)
+for month in (10,10):
+    url = 'http://huo360.cc/calendar?date=2021-'+str(month)+'-01'
+    r = requests.get(url)
+    time.sleep(3)
+    print(r.status_code)
 
-currday = (datetime.datetime.now() + datetime.timedelta(days=12)).strftime('%Y-%m-%d')
-riqi ='"'+currday+'"'
-print(riqi)
-chNames = txt.xpath('//*[@id='+riqi+']/a/div/b/text()')
-enNames = txt.xpath('//*[@id="2021-06-02"]/a/div/div[1]/text()')
-SnEm = txt.xpath('//*[@id="2021-06-02"]/a/div/div[2]/div[1]/text()')
-for item in chNames, enNames, SnEm:
-    # print(item)
-    print(item[0])
+    html = r.text
+    txt = etree.HTML(html)
+    theMonth, monthCountDay = calendar.monthrange(datetime.datetime.now().year, month)
+    for idays in range(0, monthCountDay):
+        currday = (datetime.datetime.strptime('2021-'+str(month)+'-01',"%Y-%m-%d") + datetime.timedelta(days=idays)).strftime('%Y-%m-%d')
+        riqi ='"'+currday+'"'
+        print(riqi)
+        chNames = txt.xpath('//*[@id='+riqi+']/a/div/b/text()')
+        enNames = txt.xpath('//*[@id='+riqi+']/a/div/div[1]/text()')
+        SnEm = txt.xpath('//*[@id='+riqi+']/a/div/div[2]/div[1]/text()')
+        ziped = zip(chNames,enNames,SnEm)
+        for item in ziped:
+            chName,enName,sn = item
+            processDB.addRecord_Calendar(riqi,enName,chName,sn)
+            print(currday+"|"+ chName + "|"+ enName +"|"+sn)
+
