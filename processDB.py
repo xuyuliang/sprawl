@@ -145,10 +145,21 @@ def addRecord_Calendar(dueDate, enName, chName, sn):
     seasonID = addSeason(enName,chName)
     direct_insert_calendar(seasonID,dueDate,sn)
 
-def findBroadcasting(enName):
-    sql = "select * from season INNER join calendar on season.ID = calendar.seasonID and season.ID = 109"
 
 # sriqi = "2021-06-01"
 # addRecord_Calendar(sriqi,"Young Sheldon 第四季","洋谢尔顿 第四季","s4e5")
 # direct_insert_calendar(1,sriqi,'haha')
 
+### 多表组合查询
+
+def findBroadcastingSchedule(seasonID):
+    sql = ''' select enName,chName,dueDate,SnEm from season 
+              INNER join calendar on season.ID = calendar.seasonID 
+              and seasonID = ? '''
+    cur.execute(sql,[seasonID])
+    result = cur.fetchall()
+    return result
+
+tt = findBroadcastingSchedule(109)
+for t in tt:
+    print(t)
