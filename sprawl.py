@@ -1,18 +1,25 @@
-import sys
-from PySide2.QtWidgets import QMainWindow,QApplication
-from ui_sprawl import Ui_Form
+from PySide2.QtWidgets import QApplication
+from PySide2.QtUiTools import QUiLoader
+import processDB
 
-class SprawlWindow(QMainWindow):
+
+class SprawlWindow:
     def __init__(self):
-        super(SprawlWindow,self).__init__()
-        self.ui = Ui_Form()
-        self.ui.setupUi(self)
+        self.ui = QUiLoader().load('ui_sprawl.ui')
+        super(SprawlWindow, self).__init__()
+
 
 def main():
-    app = QApplication(sys.argv)
+    app = QApplication([])
     wnd = SprawlWindow()
-    wnd.show()
+    wnd.ui.show()
     app.exec_()
+
 
 if __name__ == '__main__':
     main()
+
+    tt = processDB.findBroadcastingSchedule(109)
+    for t in tt:
+        enName,chName,dueDate,SnEm = t
+
