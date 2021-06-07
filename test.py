@@ -1,31 +1,36 @@
 import sys
-import random
-from PySide6 import QtCore, QtWidgets, QtGui
-class MyWidget(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import (QApplication, QTableWidget,QTableWidgetItem)
 
-        self.hello = ["Hallo Welt", "Hei maailma", "Hola Mundo", "Привет мир"]
+colors = [("Red", "#FF0000"),
+          ("Green", "#00FF00"),
+          ("Blue", "#0000FF"),
+          ("Black", "#000000"),
+          ("White", "#FFFFFF"),
+          ("Electric Green", "#41CD52"),
+          ("Dark Blue", "#222840"),
+          ("Yellow", "#F9E56d")]
 
-        self.button = QtWidgets.QPushButton("Click me!")
-        self.text = QtWidgets.QLabel("Hello World",
-                                     alignment=QtCore.Qt.AlignCenter)
+def get_rgb_from_hex(code):
+    code_hex = code.replace("#", "")
+    rgb = tuple(int(code_hex[i:i+2], 16) for i in (0, 2, 4))
+    return QColor.fromRgb(rgb[0], rgb[1], rgb[2])
 
-        self.layout = QtWidgets.QVBoxLayout(self)
-        self.layout.addWidget(self.text)
-        self.layout.addWidget(self.button)
+app = QApplication()
+table = QTableWidget()
+table.setRowCount(len(colors))
+table.setColumnCount(len(colors[0]) + 1)
+table.setHorizontalHeaderLabels(["Name", "Hex Code", "Color"])
 
-        self.button.clicked.connect(self.magic)
+for i, (name, code) in enumerate(colors):
+    print(i,name,code)
+    item_name = QTableWidgetItem(name)
+    item_code = QTableWidgetItem(code)
+    item_color = QTableWidgetItem()
+    item_color.setBackground(get_rgb_from_hex(code))
+    table.setItem(i, 0, item_name)
+    table.setItem(i, 1, item_code)
+    table.setItem(i, 2, item_color)
 
-    @QtCore.Slot()
-    def magic(self):
-        self.text.setText(random.choice(self.hello))
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication([])
-
-    widget = MyWidget()
-    widget.resize(800, 600)
-    widget.show()
-
-    sys.exit(app.exec_())
+table.show()
+sys.exit(app.exec())
