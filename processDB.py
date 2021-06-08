@@ -89,9 +89,28 @@ def fetchPlayandSeasons(ID):
 # print(s2)  # [(4, 'Young Sheldon 第四季'), (5, 'Young Sheldon 第三季')]
 
 ### 处理season表
+#  (0) 默认显示收藏的剧集
 # （1）写入一个新season ， 需要传入playID，season的name，
 # （2）修改 ；不要修改了，删了重写
 # （3）删除
+def showFavoriteSeasons():
+    sql ="select  s.ID ,s.enName,s.chName,c.dueDate " \
+    "from (Season s inner join calendar c on s.id = c.seasonid ) " \
+    "INNER join progress p on s.id = p.seasonID " \
+    "where S.valid is true " \
+    "and p.currDate < c.dueDate " \
+    "and c.dueDate < ?"
+
+    # currDate = datetime.datetime.now().strftime('%Y-%m-%d')
+    currDate = datetime.datetime.now()
+    cur.execute(sql,[currDate])
+    rows = cur.fetchall()
+    return rows
+
+# rows = showFavoriteSeasons()
+# print(rows)
+# for r in rows:
+#     print(r)
 
 def addSeason(enName,chName):
     sql = "select ID from season where enName=? and chName=?"
@@ -160,6 +179,6 @@ def findBroadcastingSchedule(seasonID):
     result = cur.fetchall()
     return result
 
-tt = findBroadcastingSchedule(109)
-for t in tt:
-    print(t)
+# tt = findBroadcastingSchedule(109)
+# for t in tt:
+#     print(t)
