@@ -31,13 +31,9 @@ class MainWindow(QMainWindow):
             for j in range(col):
                 # print(i,j,data[i][j])
                 # self.Table_Data(table,i, j, data[i][j])
-                currdate = data[i][j]
-                if isinstance(currdate,int):
-                    print(currdate)
-                    item = QtWidgets.QTableWidgetItem(currdate,int)
-                else:
-                    item = QtWidgets.QTableWidgetItem(currdate,str)
-
+                currdata = data[i][j]
+                item = QtWidgets.QTableWidgetItem()
+                item.setData(0,currdata)
                 table.setItem(i, j, item)
         table.show()
 
