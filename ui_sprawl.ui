@@ -20,30 +20,6 @@
       <property name="currentIndex">
        <number>1</number>
       </property>
-      <widget class="QWidget" name="tab1">
-       <attribute name="title">
-        <string>Tab 1</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton">
-            <property name="contextMenuPolicy">
-             <enum>Qt::PreventContextMenu</enum>
-            </property>
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLineEdit" name="lineEdit"/>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
         <string>Tab 2</string>
@@ -53,6 +29,11 @@
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <widget class="QTableWidget" name="tableWidget">
+            <column>
+             <property name="text">
+              <string>ID</string>
+             </property>
+            </column>
             <column>
              <property name="text">
               <string>英文名</string>
@@ -68,25 +49,14 @@
               <string>日期</string>
              </property>
             </column>
-            <column>
-             <property name="text">
-              <string>剧集</string>
-             </property>
-            </column>
            </widget>
           </item>
           <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <widget class="QTextBrowser" name="textBrowser">
+            <property name="openExternalLinks">
+             <bool>true</bool>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_2">
@@ -99,6 +69,145 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>页</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>GroupBox</string>
+          </property>
+          <widget class="QTableWidget" name="tableSearchURL">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>55</y>
+             <width>731</width>
+             <height>192</height>
+            </rect>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <column>
+            <property name="text">
+             <string>id</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>英文名</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>中文名</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>正在追</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="QPushButton" name="btnSearchDownloadURL">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>25</y>
+             <width>75</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::PreventContextMenu</enum>
+           </property>
+           <property name="text">
+            <string>搜索</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="edtName">
+           <property name="geometry">
+            <rect>
+             <x>91</x>
+             <y>26</y>
+             <width>133</width>
+             <height>21</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>GroupBox</string>
+          </property>
+          <widget class="QPushButton" name="btnDeleteDownloadURL">
+           <property name="geometry">
+            <rect>
+             <x>100</x>
+             <y>24</y>
+             <width>75</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>删除</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="btnInsertDowloadURL">
+           <property name="geometry">
+            <rect>
+             <x>19</x>
+             <y>24</y>
+             <width>75</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>写入</string>
+           </property>
+          </widget>
+          <widget class="QTableWidget" name="tableDownload">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>60</y>
+             <width>721</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>SeasonID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>URL</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Xpath</string>
+            </property>
+           </column>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -106,5 +215,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>edtName</sender>
+   <signal>returnPressed()</signal>
+   <receiver>btnSearchDownloadURL</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>162</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>87</x>
+     <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

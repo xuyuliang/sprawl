@@ -3,7 +3,7 @@ from PySide6 import QtWidgets, QtCore
 import processDB
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget
 from ui_sprawl import Ui_MainWindow
 
 
@@ -12,7 +12,8 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.pushButton.clicked.connect(self.on_pushButton2_clicked)
+        self.ui.btnSearchDownloadURL.clicked.connect(self.searchSeason)
+        self.ui.tableSearchURL.cellClicked.connect(self.tableSearchURLClicked)
         self.ui.tableWidget.cellClicked.connect(self.tableWidgetCellClicked)
         # 新建窗口完毕
         self.showFavorite()
@@ -37,27 +38,43 @@ class MainWindow(QMainWindow):
                 table.setItem(i, j, item)
         table.show()
 
-    def tableCellOnClick(self, table):
+    def tableCellOnClick(self, table:QTableWidget):
+        # 得出当前item的dict  如： {'row': 2, 'col': 1, 'title': '英文名', 'item': 'Black Love '}
         row = table.currentItem().row()
-        print("row=", row)
         col = table.currentItem().column()
-        print("col=", col)
         title = table.horizontalHeaderItem(col).text()
-        print("title=", title)
         item = table.currentItem().data(0)
-        print("item=", item)
-
+        itemdict = {'row':row,'col':col,'title':title,'item':item}
+        # print(itemdict)
+        # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
+        rows = table.columnCount()
+        rowdict = dict()
+        for i in range(rows):
+            rowdict[table.horizontalHeaderItem(i).text()]=table.item(row,i).data(0)
+        # print(rowdict)
+        result = {'itemdict':itemdict,'rowdict':rowdict}
+        print(result)
+        return result
 
     @QtCore.Slot()  # 防止点两次
     def tableWidgetCellClicked(self):
         self.tableCellOnClick(self.ui.tableWidget)
 
+    def tableSearchURLClicked(self):
+        result = self.tableCellOnClick(self.ui.tableSearchURL)
+        seasonID = result['rowdict']['id']
+        print(seasonID)
+        rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
+        print(rstdata)
+        self.writeTable(rstdata,self.ui.tableDownload)
+
     def showFavorite(self):
         rstdata = processDB.showFavoriteSeasons()
         self.writeTable(rstdata, self.ui.tableWidget)
 
-    def on_pushButton2_clicked(self, value):
-        print("hello 你好")
+    def searchSeason(self):
+        rstdata = processDB.selectSeasonByName(self.ui.edtName.text())
+        self.writeTable(rstdata,self.ui.tableSearchURL)
 
 
 if __name__ == "__main__":

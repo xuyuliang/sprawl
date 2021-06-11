@@ -24,27 +24,6 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tab1 = QWidget()
-        self.tab1.setObjectName(u"tab1")
-        self.verticalLayout_3 = QVBoxLayout(self.tab1)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.gridLayout = QGridLayout()
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.pushButton = QPushButton(self.tab1)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setContextMenuPolicy(Qt.PreventContextMenu)
-
-        self.gridLayout.addWidget(self.pushButton, 0, 0, 1, 1)
-
-        self.lineEdit = QLineEdit(self.tab1)
-        self.lineEdit.setObjectName(u"lineEdit")
-
-        self.gridLayout.addWidget(self.lineEdit, 1, 0, 1, 1)
-
-
-        self.verticalLayout_3.addLayout(self.gridLayout)
-
-        self.tabWidget.addTab(self.tab1, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.verticalLayout_5 = QVBoxLayout(self.tab_2)
@@ -66,9 +45,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.tableWidget)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.textBrowser = QTextBrowser(self.tab_2)
+        self.textBrowser.setObjectName(u"textBrowser")
+        self.textBrowser.setOpenExternalLinks(True)
 
-        self.verticalLayout_4.addItem(self.verticalSpacer)
+        self.verticalLayout_4.addWidget(self.textBrowser)
 
         self.pushButton_2 = QPushButton(self.tab_2)
         self.pushButton_2.setObjectName(u"pushButton_2")
@@ -79,6 +60,62 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
 
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.verticalLayout_6 = QVBoxLayout(self.tab)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.groupBox_2 = QGroupBox(self.tab)
+        self.groupBox_2.setObjectName(u"groupBox_2")
+        self.tableSearchURL = QTableWidget(self.groupBox_2)
+        if (self.tableSearchURL.columnCount() < 4):
+            self.tableSearchURL.setColumnCount(4)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableSearchURL.setHorizontalHeaderItem(0, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableSearchURL.setHorizontalHeaderItem(1, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableSearchURL.setHorizontalHeaderItem(2, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableSearchURL.setHorizontalHeaderItem(3, __qtablewidgetitem7)
+        self.tableSearchURL.setObjectName(u"tableSearchURL")
+        self.tableSearchURL.setGeometry(QRect(10, 55, 731, 192))
+        self.tableSearchURL.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableSearchURL.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.btnSearchDownloadURL = QPushButton(self.groupBox_2)
+        self.btnSearchDownloadURL.setObjectName(u"btnSearchDownloadURL")
+        self.btnSearchDownloadURL.setGeometry(QRect(10, 25, 75, 24))
+        self.btnSearchDownloadURL.setContextMenuPolicy(Qt.PreventContextMenu)
+        self.edtName = QLineEdit(self.groupBox_2)
+        self.edtName.setObjectName(u"edtName")
+        self.edtName.setGeometry(QRect(91, 26, 133, 21))
+
+        self.verticalLayout_6.addWidget(self.groupBox_2)
+
+        self.groupBox_3 = QGroupBox(self.tab)
+        self.groupBox_3.setObjectName(u"groupBox_3")
+        self.btnDeleteDownloadURL = QPushButton(self.groupBox_3)
+        self.btnDeleteDownloadURL.setObjectName(u"btnDeleteDownloadURL")
+        self.btnDeleteDownloadURL.setGeometry(QRect(100, 24, 75, 24))
+        self.btnInsertDowloadURL = QPushButton(self.groupBox_3)
+        self.btnInsertDowloadURL.setObjectName(u"btnInsertDowloadURL")
+        self.btnInsertDowloadURL.setGeometry(QRect(19, 24, 75, 24))
+        self.tableDownload = QTableWidget(self.groupBox_3)
+        if (self.tableDownload.columnCount() < 4):
+            self.tableDownload.setColumnCount(4)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.tableDownload.setHorizontalHeaderItem(0, __qtablewidgetitem8)
+        __qtablewidgetitem9 = QTableWidgetItem()
+        self.tableDownload.setHorizontalHeaderItem(1, __qtablewidgetitem9)
+        __qtablewidgetitem10 = QTableWidgetItem()
+        self.tableDownload.setHorizontalHeaderItem(2, __qtablewidgetitem10)
+        __qtablewidgetitem11 = QTableWidgetItem()
+        self.tableDownload.setHorizontalHeaderItem(3, __qtablewidgetitem11)
+        self.tableDownload.setObjectName(u"tableDownload")
+        self.tableDownload.setGeometry(QRect(20, 60, 721, 71))
+
+        self.verticalLayout_6.addWidget(self.groupBox_3)
+
+        self.tabWidget.addTab(self.tab, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
@@ -88,6 +125,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
+        self.edtName.returnPressed.connect(self.btnSearchDownloadURL.click)
 
         self.tabWidget.setCurrentIndex(1)
 
@@ -97,17 +135,37 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab1), QCoreApplication.translate("MainWindow", u"Tab 1", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u82f1\u6587\u540d", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"ID", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u82f1\u6587\u540d", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u65e5\u671f", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u5267\u96c6", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65e5\u671f", None));
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        ___qtablewidgetitem4 = self.tableSearchURL.horizontalHeaderItem(0)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"id", None));
+        ___qtablewidgetitem5 = self.tableSearchURL.horizontalHeaderItem(1)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u82f1\u6587\u540d", None));
+        ___qtablewidgetitem6 = self.tableSearchURL.horizontalHeaderItem(2)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
+        ___qtablewidgetitem7 = self.tableSearchURL.horizontalHeaderItem(3)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u8ffd", None));
+        self.btnSearchDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        self.btnDeleteDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None))
+        self.btnInsertDowloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5199\u5165", None))
+        ___qtablewidgetitem8 = self.tableDownload.horizontalHeaderItem(0)
+        ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"ID", None));
+        ___qtablewidgetitem9 = self.tableDownload.horizontalHeaderItem(1)
+        ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"SeasonID", None));
+        ___qtablewidgetitem10 = self.tableDownload.horizontalHeaderItem(2)
+        ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"URL", None));
+        ___qtablewidgetitem11 = self.tableDownload.horizontalHeaderItem(3)
+        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Xpath", None));
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u9875", None))
     # retranslateUi
 

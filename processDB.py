@@ -26,6 +26,11 @@ def delCurrPos(seasonID,currDate):
 # （3）根据id删除某个网址
 # （4）删除某个seasonID的所有网址
 # 因为有ID，所以可以写多个网址
+def selectDowloadURLbySeasonID(SeasonID:int):
+    sql = "select id,seasonid,URL,Xpath from download where seasonid = ? "
+    cur.execute(sql,[SeasonID])
+    return cur.fetchall()
+# print( selectDowloadURLbySeasonID(274) )
 
 def addDownloadURL(seasonID,URL,Xpath):
     sql = "insert into download(seasonID,URL,Xpath) values(?,?,?)"
@@ -111,6 +116,14 @@ def showFavoriteSeasons():
 # print(rows)
 # for r in rows:
 #     print(r)
+def selectSeasonByName(name):
+    sql = "select id,enName,chName,valid from season " \
+    "where enName like ? or chName like ?"
+    cur.execute(sql,["%"+name+"%","%"+name+"%"])
+    rows = cur.fetchall()
+    return rows
+
+# print(selectSeasonByName('love'))
 
 def addSeason(enName,chName):
     sql = "select ID from season where enName=? and chName=?"
