@@ -147,7 +147,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         ___qtablewidgetitem4 = self.tableSearchURL.horizontalHeaderItem(0)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"id", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"ID", None));
         ___qtablewidgetitem5 = self.tableSearchURL.horizontalHeaderItem(1)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u82f1\u6587\u540d", None));
         ___qtablewidgetitem6 = self.tableSearchURL.horizontalHeaderItem(2)

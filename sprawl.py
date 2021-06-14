@@ -24,7 +24,6 @@ class MainWindow(QMainWindow):
             data[i] = list(data[i])  # 将获取的数据转为列表形式
         row = len(data)
         col = len(data[0])
-        # table.setHorizontalHeaderLabels(["enName","chName","date","episode"])
         table.setRowCount(row)
         table.setColumnCount(col)
 
@@ -62,7 +61,7 @@ class MainWindow(QMainWindow):
 
     def tableSearchURLClicked(self):
         result = self.tableCellOnClick(self.ui.tableSearchURL)
-        seasonID = result['rowdict']['id']
+        seasonID = result['rowdict']['ID']
         print(seasonID)
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
         print(rstdata)
