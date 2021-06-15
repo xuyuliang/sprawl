@@ -28,7 +28,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QTableWidget" name="tableWidget">
+           <widget class="QTableWidget" name="tableFavorite">
             <column>
              <property name="text">
               <string>ID</string>
@@ -229,6 +229,22 @@
     <hint type="destinationlabel">
      <x>87</x>
      <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableDownload</sender>
+   <signal>itemChanged(QTableWidgetItem*)</signal>
+   <receiver>btnInsertDowloadURL</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>73</x>
+     <y>347</y>
     </hint>
    </hints>
   </connection>

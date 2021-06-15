@@ -30,20 +30,20 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.tableWidget = QTableWidget(self.tab_2)
-        if (self.tableWidget.columnCount() < 4):
-            self.tableWidget.setColumnCount(4)
+        self.tableFavorite = QTableWidget(self.tab_2)
+        if (self.tableFavorite.columnCount() < 4):
+            self.tableFavorite.setColumnCount(4)
         __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        self.tableFavorite.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        self.tableFavorite.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        self.tableFavorite.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
-        self.tableWidget.setObjectName(u"tableWidget")
+        self.tableFavorite.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        self.tableFavorite.setObjectName(u"tableFavorite")
 
-        self.verticalLayout_4.addWidget(self.tableWidget)
+        self.verticalLayout_4.addWidget(self.tableFavorite)
 
         self.textBrowser = QTextBrowser(self.tab_2)
         self.textBrowser.setObjectName(u"textBrowser")
@@ -127,7 +127,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.edtName.returnPressed.connect(self.btnSearchDownloadURL.click)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -135,13 +135,13 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem = self.tableFavorite.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"ID", None));
-        ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem1 = self.tableFavorite.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u82f1\u6587\u540d", None));
-        ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem2 = self.tableFavorite.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
-        ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
+        ___qtablewidgetitem3 = self.tableFavorite.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65e5\u671f", None));
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))

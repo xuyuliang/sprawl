@@ -3,7 +3,7 @@ from PySide6 import QtWidgets, QtCore
 import processDB
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget, QHeaderView
 from ui_sprawl import Ui_MainWindow
 
 
@@ -14,19 +14,21 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.btnSearchDownloadURL.clicked.connect(self.searchSeason)
         self.ui.tableSearchURL.cellClicked.connect(self.tableSearchURLClicked)
-        self.ui.tableWidget.cellClicked.connect(self.tableWidgetCellClicked)
+        self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
+        self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
+
         # 新建窗口完毕
         self.showFavorite()
 
-    def writeTable(self, data, table):
-        print(data)
+    def writeTable(self, data, table, *HiddenColumns):
+        # print(data)
         for i in range(len(data)):  # 将相关的数据
             data[i] = list(data[i])  # 将获取的数据转为列表形式
         row = len(data)
         col = len(data[0])
         table.setRowCount(row)
         table.setColumnCount(col)
-
+        #写入数据
         for i in range(row):
             for j in range(col):
                 # print(i,j,data[i][j])
@@ -35,6 +37,11 @@ class MainWindow(QMainWindow):
                 item = QtWidgets.QTableWidgetItem()
                 item.setData(0,currdata)
                 table.setItem(i, j, item)
+        #处理隐藏列宽
+        for hid_col in HiddenColumns:
+            table.setColumnHidden(hid_col,True)
+        #自动扩展列宽，适应内容
+        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         table.show()
 
     def tableCellOnClick(self, table:QTableWidget):
@@ -57,7 +64,13 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot()  # 防止点两次
     def tableWidgetCellClicked(self):
-        self.tableCellOnClick(self.ui.tableWidget)
+        self.tableCellOnClick(self.ui.tableFavorite)
+    def tableDownloadClicked(self):
+        rst = self.tableCellOnClick(self.ui.tableDownload)
+        ID = ['rowdict']['ID']
+        SeasonID = rst['rowdict']['SeasonID']
+        URL = rst['rowdict']['URL']
+        Xpath = rst['rowdict']['Xpath']
 
     def tableSearchURLClicked(self):
         result = self.tableCellOnClick(self.ui.tableSearchURL)
@@ -65,15 +78,17 @@ class MainWindow(QMainWindow):
         print(seasonID)
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
         print(rstdata)
-        self.writeTable(rstdata,self.ui.tableDownload)
+        self.writeTable(rstdata,self.ui.tableDownload,0,1)
 
     def showFavorite(self):
         rstdata = processDB.showFavoriteSeasons()
-        self.writeTable(rstdata, self.ui.tableWidget)
+        self.writeTable(rstdata, self.ui.tableFavorite,0)
 
     def searchSeason(self):
         rstdata = processDB.selectSeasonByName(self.ui.edtName.text())
-        self.writeTable(rstdata,self.ui.tableSearchURL)
+        self.writeTable(rstdata,self.ui.tableSearchURL,0)
+
+
 
 
 if __name__ == "__main__":
