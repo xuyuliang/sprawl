@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 886)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -66,6 +66,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.groupBox_2 = QGroupBox(self.tab)
         self.groupBox_2.setObjectName(u"groupBox_2")
+        self.groupBox_2.setMaximumSize(QSize(16777215, 220))
         self.tableSearchURL = QTableWidget(self.groupBox_2)
         if (self.tableSearchURL.columnCount() < 4):
             self.tableSearchURL.setColumnCount(4)
@@ -78,7 +79,7 @@ class Ui_MainWindow(object):
         __qtablewidgetitem7 = QTableWidgetItem()
         self.tableSearchURL.setHorizontalHeaderItem(3, __qtablewidgetitem7)
         self.tableSearchURL.setObjectName(u"tableSearchURL")
-        self.tableSearchURL.setGeometry(QRect(10, 55, 731, 192))
+        self.tableSearchURL.setGeometry(QRect(10, 50, 731, 161))
         self.tableSearchURL.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableSearchURL.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.btnSearchDownloadURL = QPushButton(self.groupBox_2)
@@ -111,7 +112,7 @@ class Ui_MainWindow(object):
         __qtablewidgetitem11 = QTableWidgetItem()
         self.tableDownload.setHorizontalHeaderItem(3, __qtablewidgetitem11)
         self.tableDownload.setObjectName(u"tableDownload")
-        self.tableDownload.setGeometry(QRect(20, 60, 721, 71))
+        self.tableDownload.setGeometry(QRect(20, 60, 721, 101))
 
         self.verticalLayout_6.addWidget(self.groupBox_3)
 
@@ -127,7 +128,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.edtName.returnPressed.connect(self.btnSearchDownloadURL.click)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -144,7 +145,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3 = self.tableFavorite.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65e5\u671f", None));
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6211\u7684\u6536\u85cf", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         ___qtablewidgetitem4 = self.tableSearchURL.horizontalHeaderItem(0)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"ID", None));
@@ -157,7 +158,7 @@ class Ui_MainWindow(object):
         self.btnSearchDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         self.btnDeleteDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None))
-        self.btnInsertDowloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5199\u5165", None))
+        self.btnInsertDowloadURL.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u589e", None))
         ___qtablewidgetitem8 = self.tableDownload.horizontalHeaderItem(0)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"ID", None));
         ___qtablewidgetitem9 = self.tableDownload.horizontalHeaderItem(1)
@@ -166,6 +167,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"URL", None));
         ___qtablewidgetitem11 = self.tableDownload.horizontalHeaderItem(3)
         ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Xpath", None));
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u9875", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u914d\u7f6e", None))
     # retranslateUi
 

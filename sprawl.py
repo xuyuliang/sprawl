@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
         self.ui.tableSearchURL.cellClicked.connect(self.tableSearchURLClicked)
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
         self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
+        self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
 
         # 新建窗口完毕
         self.showFavorite()
@@ -78,6 +79,12 @@ class MainWindow(QMainWindow):
         return result
 
     @QtCore.Slot()  # 防止点两次
+    def btnInertDowloadURLClicked(self):
+        #如果已经有内容，就新增一条，如果没有，就写一个空行  [(1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]')]
+        curr_row = self.ui.tableSearchURL.currentItem().row()
+        seasonID = self.ui.tableSearchURL.item(curr_row,0).data(0)
+        print(seasonID)
+        EmptyLine = [(1, seasonID, '', '')]
     def tableWidgetCellClicked(self):
         self.tableCellOnClick(self.ui.tableFavorite)
     def tableDownloadClicked(self):
