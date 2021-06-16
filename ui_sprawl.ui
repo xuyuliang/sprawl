@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>886</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
       </property>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>我的收藏</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
@@ -71,11 +71,17 @@
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>页</string>
+        <string>配置</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
          <widget class="QGroupBox" name="groupBox_2">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>220</height>
+           </size>
+          </property>
           <property name="title">
            <string>GroupBox</string>
           </property>
@@ -83,9 +89,9 @@
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>55</y>
+             <y>50</y>
              <width>731</width>
-             <height>192</height>
+             <height>161</height>
             </rect>
            </property>
            <property name="selectionMode">
@@ -171,7 +177,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>写入</string>
+            <string>新增</string>
            </property>
           </widget>
           <widget class="QTableWidget" name="tableDownload">
@@ -180,7 +186,7 @@
              <x>20</x>
              <y>60</y>
              <width>721</width>
-             <height>71</height>
+             <height>101</height>
             </rect>
            </property>
            <column>
@@ -229,22 +235,6 @@
     <hint type="destinationlabel">
      <x>87</x>
      <y>85</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tableDownload</sender>
-   <signal>itemChanged(QTableWidgetItem*)</signal>
-   <receiver>btnInsertDowloadURL</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>150</x>
-     <y>385</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>73</x>
-     <y>347</y>
     </hint>
    </hints>
   </connection>

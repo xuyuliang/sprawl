@@ -19,13 +19,28 @@ class MainWindow(QMainWindow):
 
         # 新建窗口完毕
         self.showFavorite()
+    def tableItemChanged(self,table):
+        # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
+        rows = table.columnCount()
+        row = table.currentItem().row()
+        rowdict = dict()
+        for i in range(rows):
+            rowdict[table.horizontalHeaderItem(i).text()]=table.item(row,i).data(0)
+        # print(rowdict)
+        print('in tableItemChanged:',rowdict)
+        return rowdict
+
 
     def writeTable(self, data, table, *HiddenColumns):
         # print(data)
-        for i in range(len(data)):  # 将相关的数据
-            data[i] = list(data[i])  # 将获取的数据转为列表形式
-        row = len(data)
-        col = len(data[0])
+        if(len(data) == 0):   # 如果数据为空，则画一个空表
+            row = 0
+            col = 0
+        else:
+            for i in range(len(data)):  # 将相关的数据
+                data[i] = list(data[i])  # 将获取的数据转为列表形式
+            row = len(data)
+            col = len(data[0])
         table.setRowCount(row)
         table.setColumnCount(col)
         #写入数据
@@ -67,7 +82,7 @@ class MainWindow(QMainWindow):
         self.tableCellOnClick(self.ui.tableFavorite)
     def tableDownloadClicked(self):
         rst = self.tableCellOnClick(self.ui.tableDownload)
-        ID = ['rowdict']['ID']
+        ID = rst['rowdict']['ID']
         SeasonID = rst['rowdict']['SeasonID']
         URL = rst['rowdict']['URL']
         Xpath = rst['rowdict']['Xpath']
