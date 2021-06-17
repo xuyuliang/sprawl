@@ -18,15 +18,18 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
         self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
-        self.ui.tableSearchURL.itemChanged.connect(self.tableSearchURLitemChanged)
+        self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLitemChanged)
 
         # 新建窗口完毕
         self.showFavorite()
     # 公用的函数们
     def tableItemChanged(self,table):
-        # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
+        # 如果当前不在双击编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
+        if(table.currentItem() == None):
+            return None
         rows = table.columnCount()
         row = table.currentItem().row()
+        # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
         rowdict = dict()
         for i in range(rows):
             rowdict[table.horizontalHeaderItem(i).text()]=table.item(row,i).data(0)
@@ -84,7 +87,13 @@ class MainWindow(QMainWindow):
     # 具体的控件点击
     def tableSearchURLitemChanged(self):
         rst = self.tableItemChanged(self.ui.tableSearchURL)
-        processDB.addDownloadURL(rst['seasonID'],rst['URL'],rst['Xpath'])
+        print('准备update或insert URL Xpath:',rst)
+        if(rst == None):
+            return None
+        if(rst['ID'] == -1):  # 新增的空行，默认是-1
+            processDB.addDownloadURL(rst['SeasonID'],rst['URL'],rst['Xpath'])
+        else:
+            processDB.modifyDownloadURL(rst['ID',rst['URL'],rst['Xpath']])
 
 
 
@@ -93,7 +102,7 @@ class MainWindow(QMainWindow):
         curr_row = self.ui.tableSearchURL.currentItem().row()
         seasonID = self.ui.tableSearchURL.item(curr_row,0).data(0)
         print(seasonID)
-        EmptyLine = [(0, seasonID, '', '')]
+        EmptyLine = [(-1, seasonID, '', '')]
         #读原有的数据
         data = processDB.selectDowloadURLbySeasonID(seasonID)
         print('data:',data)
