@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets, QtCore
+from PySide6.QtCore import QEvent
 
 import processDB
 import sys
@@ -17,9 +18,11 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
         self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
+        self.ui.tableSearchURL.itemChanged.connect(self.tableSearchURLitemChanged)
 
         # 新建窗口完毕
         self.showFavorite()
+    # 公用的函数们
     def tableItemChanged(self,table):
         # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
         rows = table.columnCount()
@@ -34,7 +37,7 @@ class MainWindow(QMainWindow):
 
     def writeTable(self, data, table, *HiddenColumns):
         # print(data)
-        if(len(data) == 0):   # 如果数据为空，则画一个空表
+        if(len(data) == None):   # 如果数据为空，则画一个空表
             row = 0
             col = 0
         else:
@@ -75,16 +78,29 @@ class MainWindow(QMainWindow):
             rowdict[table.horizontalHeaderItem(i).text()]=table.item(row,i).data(0)
         # print(rowdict)
         result = {'itemdict':itemdict,'rowdict':rowdict}
-        print(result)
+        print('tableCellOnClick:',result)
         return result
 
-    @QtCore.Slot()  # 防止点两次
+    # 具体的控件点击
+    def tableSearchURLitemChanged(self):
+        rst = self.tableItemChanged(self.ui.tableSearchURL)
+        processDB.addDownloadURL(rst['seasonID'],rst['URL'],rst['Xpath'])
+
+
+
     def btnInertDowloadURLClicked(self):
-        #如果已经有内容，就新增一条，如果没有，就写一个空行  [(1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]')]
+        #写一个空行  [(1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]')]
         curr_row = self.ui.tableSearchURL.currentItem().row()
         seasonID = self.ui.tableSearchURL.item(curr_row,0).data(0)
         print(seasonID)
-        EmptyLine = [(1, seasonID, '', '')]
+        EmptyLine = [(0, seasonID, '', '')]
+        #读原有的数据
+        data = processDB.selectDowloadURLbySeasonID(seasonID)
+        print('data:',data)
+        # 将空行加到最后一行
+        data.extend(EmptyLine)
+        print('data',data)
+        self.writeTable(data,self.ui.tableDownload,0,1)
     def tableWidgetCellClicked(self):
         self.tableCellOnClick(self.ui.tableFavorite)
     def tableDownloadClicked(self):
@@ -99,8 +115,9 @@ class MainWindow(QMainWindow):
         seasonID = result['rowdict']['ID']
         print(seasonID)
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
-        print(rstdata)
-        self.writeTable(rstdata,self.ui.tableDownload,0,1)
+        print('selectDowloadURLbySeasonID:',rstdata)
+        if(len(rstdata) != 0 ):
+            self.writeTable(rstdata,self.ui.tableDownload,0,1)
 
     def showFavorite(self):
         rstdata = processDB.showFavoriteSeasons()
