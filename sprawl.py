@@ -18,13 +18,14 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
         self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
-        self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLitemChanged)
+
+        # self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLitemChanged)
 
         # 新建窗口完毕
         self.showFavorite()
     # 公用的函数们
     def tableItemChanged(self,table):
-        # 如果当前不在双击编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
+        # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
         if(table.currentItem() == None):
             return None
         rows = table.columnCount()
@@ -93,7 +94,7 @@ class MainWindow(QMainWindow):
         if(rst['ID'] == -1):  # 新增的空行，默认是-1
             processDB.addDownloadURL(rst['SeasonID'],rst['URL'],rst['Xpath'])
         else:
-            processDB.modifyDownloadURL(rst['ID',rst['URL'],rst['Xpath']])
+            processDB.modifyDownloadURL(rst['ID'],rst['URL'],rst['Xpath'])
 
 
 
