@@ -18,8 +18,8 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
         self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
-
-        # self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLitemChanged)
+        self.ui.btnSaveDownloadURL.clicked.connect(self.btnSaveDownloadURLclicked)
+        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
 
         # 新建窗口完毕
         self.showFavorite()
@@ -86,14 +86,18 @@ class MainWindow(QMainWindow):
         return result
 
     # 具体的控件点击
-    def tableSearchURLitemChanged(self):
-        rst = self.tableItemChanged(self.ui.tableSearchURL)
+    def btnSaveDownloadURLclicked(self):
+        pass
+    def tableDownloadCellChanged(self):
+        rst = self.tableItemChanged(self.ui.tableDownload)
         print('准备update或insert URL Xpath:',rst)
         if(rst == None):
             return None
         if(rst['ID'] == -1):  # 新增的空行，默认是-1
+            print('新增的空行')
             processDB.addDownloadURL(rst['SeasonID'],rst['URL'],rst['Xpath'])
         else:
+            print('对旧数据更改')
             processDB.modifyDownloadURL(rst['ID'],rst['URL'],rst['Xpath'])
 
 
@@ -114,6 +118,7 @@ class MainWindow(QMainWindow):
     def tableWidgetCellClicked(self):
         self.tableCellOnClick(self.ui.tableFavorite)
     def tableDownloadClicked(self):
+        self.ui.tableDownload.edit = True
         rst = self.tableCellOnClick(self.ui.tableDownload)
         ID = rst['rowdict']['ID']
         SeasonID = rst['rowdict']['SeasonID']
