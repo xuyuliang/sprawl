@@ -8,6 +8,21 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTabl
 from ui_sprawl import Ui_MainWindow
 
 
+def read_table_current_item(table):
+    # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
+    if table.currentItem() is None:
+        return None
+    rows = table.columnCount()
+    row = table.currentItem().row()
+    # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
+    row_dict = dict()
+    for i in range(rows):
+        row_dict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
+    # print(row_dict)
+    print('当前选中的行:', row_dict)
+    return row_dict
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -18,26 +33,13 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
         self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
-        self.ui.btnSaveDownloadURL.clicked.connect(self.btnSaveDownloadURLclicked)
         self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
+        self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
 
         # 新建窗口完毕
         self.showFavorite()
 
     # 公用的函数们
-    def tableItemChanged(self, table):
-        # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
-        if (table.currentItem() == None):
-            return None
-        rows = table.columnCount()
-        row = table.currentItem().row()
-        # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
-        rowdict = dict()
-        for i in range(rows):
-            rowdict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
-        # print(rowdict)
-        print('in tableItemChanged:', rowdict)
-        return rowdict
 
     def writeTable(self, data, table, *HiddenColumns):
         # print(data)
@@ -86,11 +88,23 @@ class MainWindow(QMainWindow):
         return result
 
     # 具体的控件点击
-    def btnSaveDownloadURLclicked(self):
-        pass
+    def btnDeleteDownloadURLclicked(self):
+        rst = read_table_current_item(self.ui.tableDownload)
+        print('准备delete:', rst)
+        if rst is None:
+            return None
+        processDB.deleteDownloadbyID(rst['ID'])
+        #准备refresh table
+        seasonID = rst['SeasonID']
+        rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
+        print('selectDowloadURLbySeasonID:', rstdata)
+        if (len(rstdata) != 0):
+            self.writeTable(rstdata, self.ui.tableDownload, 0, 1)
+
+
 
     def tableDownloadCellChanged(self):
-        rst = self.tableItemChanged(self.ui.tableDownload)
+        rst = read_table_current_item(self.ui.tableDownload)
         print('准备update或insert URL Xpath:', rst)
         if rst is None:
             return None
@@ -125,6 +139,7 @@ class MainWindow(QMainWindow):
         result = self.tableCellOnClick(self.ui.tableSearchURL)
         seasonID = result['rowdict']['ID']
         print(seasonID)
+        # show tableDownload
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
         print('selectDowloadURLbySeasonID:', rstdata)
         if (len(rstdata) != 0):

@@ -210,19 +210,6 @@
             </property>
            </column>
           </widget>
-          <widget class="QPushButton" name="btnSaveDownloadURL">
-           <property name="geometry">
-            <rect>
-             <x>182</x>
-             <y>24</y>
-             <width>75</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>保存</string>
-           </property>
-          </widget>
          </widget>
         </item>
        </layout>
