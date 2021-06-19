@@ -32,6 +32,18 @@ def selectDowloadURLbySeasonID(SeasonID:int):
     return cur.fetchall()
 # print( selectDowloadURLbySeasonID(274) )
 
+def insert_modifyDownloadURL(ID,seasonID,URL,Xpath):
+    sql = "select * from download where ID = ?"
+    cur.execute(sql,[ID])
+    rst = cur.fetchall()
+    print(rst,len(rst) == 0)
+    if (len(rst) == 0) :
+        addDownloadURL(seasonID,URL,Xpath)
+    else:
+        modifyDownloadURL(ID,URL,Xpath)
+
+
+
 def addDownloadURL(seasonID,URL,Xpath):
     sql = "insert into download(seasonID,URL,Xpath) values(?,?,?)"
     cur.execute(sql, [seasonID, URL,Xpath])
@@ -58,6 +70,7 @@ def deleteDownloadbySeasonID(seasonID):
 # modifyDownloadURL(1,r'https://www.jsr9.com/subject/29500.html',r'/html/body/div[2]/div[1]/div[2]/div[3]/div/a')
 # deleteDownloadbyID(1)
 # deleteDownloadbySeasonID(1)
+# insert_modifyDownloadURL(-1,274,'xxx','yyy')
 
 ### 处理play表
 # （1）写入一本剧

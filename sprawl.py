@@ -23,25 +23,25 @@ class MainWindow(QMainWindow):
 
         # 新建窗口完毕
         self.showFavorite()
+
     # 公用的函数们
-    def tableItemChanged(self,table):
+    def tableItemChanged(self, table):
         # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
-        if(table.currentItem() == None):
+        if (table.currentItem() == None):
             return None
         rows = table.columnCount()
         row = table.currentItem().row()
         # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
         rowdict = dict()
         for i in range(rows):
-            rowdict[table.horizontalHeaderItem(i).text()]=table.item(row,i).data(0)
+            rowdict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
         # print(rowdict)
-        print('in tableItemChanged:',rowdict)
+        print('in tableItemChanged:', rowdict)
         return rowdict
-
 
     def writeTable(self, data, table, *HiddenColumns):
         # print(data)
-        if(len(data) == None):   # 如果数据为空，则画一个空表
+        if (len(data) == None):  # 如果数据为空，则画一个空表
             row = 0
             col = 0
         else:
@@ -51,72 +51,68 @@ class MainWindow(QMainWindow):
             col = len(data[0])
         table.setRowCount(row)
         table.setColumnCount(col)
-        #写入数据
+        # 写入数据
         for i in range(row):
             for j in range(col):
                 # print(i,j,data[i][j])
                 # self.Table_Data(table,i, j, data[i][j])
                 currdata = data[i][j]
                 item = QtWidgets.QTableWidgetItem()
-                item.setData(0,currdata)
+                item.setData(0, currdata)
                 table.setItem(i, j, item)
-        #处理隐藏列宽
+        # 处理隐藏列宽
         for hid_col in HiddenColumns:
-            table.setColumnHidden(hid_col,True)
-        #自动扩展列宽，适应内容
+            table.setColumnHidden(hid_col, True)
+        # 自动扩展列宽，适应内容
         table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         table.show()
 
-    def tableCellOnClick(self, table:QTableWidget):
+    def tableCellOnClick(self, table: QTableWidget):
         # 得出当前item的dict  如： {'row': 2, 'col': 1, 'title': '英文名', 'item': 'Black Love '}
         row = table.currentItem().row()
         col = table.currentItem().column()
         title = table.horizontalHeaderItem(col).text()
         item = table.currentItem().data(0)
-        itemdict = {'row':row,'col':col,'title':title,'item':item}
+        itemdict = {'row': row, 'col': col, 'title': title, 'item': item}
         # print(itemdict)
         # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
         rows = table.columnCount()
         rowdict = dict()
         for i in range(rows):
-            rowdict[table.horizontalHeaderItem(i).text()]=table.item(row,i).data(0)
+            rowdict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
         # print(rowdict)
-        result = {'itemdict':itemdict,'rowdict':rowdict}
-        print('tableCellOnClick:',result)
+        result = {'itemdict': itemdict, 'rowdict': rowdict}
+        print('tableCellOnClick:', result)
         return result
 
     # 具体的控件点击
     def btnSaveDownloadURLclicked(self):
         pass
+
     def tableDownloadCellChanged(self):
         rst = self.tableItemChanged(self.ui.tableDownload)
-        print('准备update或insert URL Xpath:',rst)
-        if(rst == None):
+        print('准备update或insert URL Xpath:', rst)
+        if rst is None:
             return None
-        if(rst['ID'] == -1):  # 新增的空行，默认是-1
-            print('新增的空行')
-            processDB.addDownloadURL(rst['SeasonID'],rst['URL'],rst['Xpath'])
-        else:
-            print('对旧数据更改')
-            processDB.modifyDownloadURL(rst['ID'],rst['URL'],rst['Xpath'])
-
-
+        processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
 
     def btnInertDowloadURLClicked(self):
-        #写一个空行  [(1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]')]
+        # 写一个空行  [(1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]')]
         curr_row = self.ui.tableSearchURL.currentItem().row()
-        seasonID = self.ui.tableSearchURL.item(curr_row,0).data(0)
+        seasonID = self.ui.tableSearchURL.item(curr_row, 0).data(0)
         print(seasonID)
         EmptyLine = [(-1, seasonID, '', '')]
-        #读原有的数据
+        # 读原有的数据
         data = processDB.selectDowloadURLbySeasonID(seasonID)
-        print('data:',data)
+        print('data:', data)
         # 将空行加到最后一行
         data.extend(EmptyLine)
-        print('data',data)
-        self.writeTable(data,self.ui.tableDownload,0,1)
+        print('data', data)
+        self.writeTable(data, self.ui.tableDownload, 0, 1)
+
     def tableWidgetCellClicked(self):
         self.tableCellOnClick(self.ui.tableFavorite)
+
     def tableDownloadClicked(self):
         self.ui.tableDownload.edit = True
         rst = self.tableCellOnClick(self.ui.tableDownload)
@@ -130,19 +126,17 @@ class MainWindow(QMainWindow):
         seasonID = result['rowdict']['ID']
         print(seasonID)
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
-        print('selectDowloadURLbySeasonID:',rstdata)
-        if(len(rstdata) != 0 ):
-            self.writeTable(rstdata,self.ui.tableDownload,0,1)
+        print('selectDowloadURLbySeasonID:', rstdata)
+        if (len(rstdata) != 0):
+            self.writeTable(rstdata, self.ui.tableDownload, 0, 1)
 
     def showFavorite(self):
         rstdata = processDB.showFavoriteSeasons()
-        self.writeTable(rstdata, self.ui.tableFavorite,0)
+        self.writeTable(rstdata, self.ui.tableFavorite, 0)
 
     def searchSeason(self):
         rstdata = processDB.selectSeasonByName(self.ui.edtName.text())
-        self.writeTable(rstdata,self.ui.tableSearchURL,0)
-
-
+        self.writeTable(rstdata, self.ui.tableSearchURL, 0)
 
 
 if __name__ == "__main__":
