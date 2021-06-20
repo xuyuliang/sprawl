@@ -9,6 +9,7 @@ from ui_sprawl import Ui_MainWindow
 
 
 def read_table_current_item(table):
+
     # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
     if table.currentItem() is None:
         return None
@@ -31,10 +32,10 @@ class MainWindow(QMainWindow):
         self.ui.btnSearchDownloadURL.clicked.connect(self.searchSeason)
         self.ui.tableSearchURL.cellClicked.connect(self.tableSearchURLClicked)
         self.ui.tableDownload.cellClicked.connect(self.tableDownloadClicked)
-        self.ui.tableFavorite.cellClicked.connect(self.tableWidgetCellClicked)
+        self.ui.tableFavorite.cellClicked.connect(self.tableFavoriteCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
-        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
+        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
 
         # 新建窗口完毕
         self.showFavorite()
@@ -109,6 +110,8 @@ class MainWindow(QMainWindow):
         if rst is None:
             return None
         processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
+        #刷新当前表
+
 
     def btnInertDowloadURLClicked(self):
         # 写一个空行  [(1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]')]
@@ -124,20 +127,22 @@ class MainWindow(QMainWindow):
         print('data', data)
         self.writeTable(data, self.ui.tableDownload, 0, 1)
 
-    def tableWidgetCellClicked(self):
-        self.tableCellOnClick(self.ui.tableFavorite)
+    def tableFavoriteCellClicked(self):
+        # self.tableCellOnClick(self.ui.tableFavorite)
+        read_table_current_item(self.ui.tableFavorite)
 
     def tableDownloadClicked(self):
         self.ui.tableDownload.edit = True
-        rst = self.tableCellOnClick(self.ui.tableDownload)
-        ID = rst['rowdict']['ID']
-        SeasonID = rst['rowdict']['SeasonID']
-        URL = rst['rowdict']['URL']
-        Xpath = rst['rowdict']['Xpath']
+        rst = read_table_current_item(self.ui.tableSearchURL)
+        print('tableDownloadClicked: 当前行：',rst)
+        ID = rst['ID']
+        SeasonID = rst['SeasonID']
+        URL = rst['URL']
+        Xpath = rst['Xpath']
 
     def tableSearchURLClicked(self):
-        result = self.tableCellOnClick(self.ui.tableSearchURL)
-        seasonID = result['rowdict']['ID']
+        result = read_table_current_item(self.ui.tableSearchURL)
+        seasonID = result['ID']
         print(seasonID)
         # show tableDownload
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)

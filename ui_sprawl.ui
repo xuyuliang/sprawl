@@ -107,17 +107,17 @@
            </column>
            <column>
             <property name="text">
-             <string>英文名</string>
+             <string>enName</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>中文名</string>
+             <string>chName</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>正在追</string>
+             <string>valid</string>
             </property>
            </column>
           </widget>
