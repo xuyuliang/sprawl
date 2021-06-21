@@ -70,23 +70,23 @@ class MainWindow(QMainWindow):
         table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         table.show()
 
-    def tableCellOnClick(self, table: QTableWidget):
-        # 得出当前item的dict  如： {'row': 2, 'col': 1, 'title': '英文名', 'item': 'Black Love '}
-        row = table.currentItem().row()
-        col = table.currentItem().column()
-        title = table.horizontalHeaderItem(col).text()
-        item = table.currentItem().data(0)
-        itemdict = {'row': row, 'col': col, 'title': title, 'item': item}
-        # print(itemdict)
-        # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
-        rows = table.columnCount()
-        rowdict = dict()
-        for i in range(rows):
-            rowdict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
-        # print(rowdict)
-        result = {'itemdict': itemdict, 'rowdict': rowdict}
-        print('tableCellOnClick:', result)
-        return result
+    # def tableCellOnClick(self, table: QTableWidget):
+    #     # 得出当前item的dict  如： {'row': 2, 'col': 1, 'title': '英文名', 'item': 'Black Love '}
+    #     row = table.currentItem().row()
+    #     col = table.currentItem().column()
+    #     title = table.horizontalHeaderItem(col).text()
+    #     item = table.currentItem().data(0)
+    #     itemdict = {'row': row, 'col': col, 'title': title, 'item': item}
+    #     # print(itemdict)
+    #     # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
+    #     rows = table.columnCount()
+    #     rowdict = dict()
+    #     for i in range(rows):
+    #         rowdict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
+    #     # print(rowdict)
+    #     result = {'itemdict': itemdict, 'rowdict': rowdict}
+    #     print('tableCellOnClick:', result)
+    #     return result
 
     # 具体的控件点击
     def btnDeleteDownloadURLclicked(self):
