@@ -150,11 +150,11 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4 = self.tableSearchURL.horizontalHeaderItem(0)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"ID", None));
         ___qtablewidgetitem5 = self.tableSearchURL.horizontalHeaderItem(1)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"enName", None));
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u82f1\u6587\u540d", None));
         ___qtablewidgetitem6 = self.tableSearchURL.horizontalHeaderItem(2)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"chName", None));
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
         ___qtablewidgetitem7 = self.tableSearchURL.horizontalHeaderItem(3)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"valid", None));
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u8ffd", None));
         self.btnSearchDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         self.btnDeleteDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None))

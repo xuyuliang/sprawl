@@ -35,7 +35,9 @@ class MainWindow(QMainWindow):
         self.ui.tableFavorite.cellClicked.connect(self.tableFavoriteCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
         self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
-        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
+        self.ui.tableDownload.pressed.connect(self.tableDownloadCellChanged)
+
+
 
         # 新建窗口完毕
         self.showFavorite()
@@ -89,6 +91,7 @@ class MainWindow(QMainWindow):
     #     return result
 
     # 具体的控件点击
+
     def btnDeleteDownloadURLclicked(self):
         rst = read_table_current_item(self.ui.tableDownload)
         print('准备delete:', rst)
@@ -132,13 +135,15 @@ class MainWindow(QMainWindow):
         read_table_current_item(self.ui.tableFavorite)
 
     def tableDownloadClicked(self):
+        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         self.ui.tableDownload.edit = True
         rst = read_table_current_item(self.ui.tableSearchURL)
         print('tableDownloadClicked: 当前行：',rst)
         ID = rst['ID']
-        SeasonID = rst['SeasonID']
-        URL = rst['URL']
-        Xpath = rst['Xpath']
+        enName = rst['英文名']
+        chName = rst['中文名']
+        valid = rst['正在追']
+
 
     def tableSearchURLClicked(self):
         result = read_table_current_item(self.ui.tableSearchURL)
