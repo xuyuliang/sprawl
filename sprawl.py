@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
         self.ui.tableFavorite.cellClicked.connect(self.tableFavoriteCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
         self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
-        self.ui.tableDownload.pressed.connect(self.tableDownloadCellChanged)
+        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
 
 
 
