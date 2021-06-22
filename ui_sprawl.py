@@ -113,6 +113,9 @@ class Ui_MainWindow(object):
         self.tableDownload.setHorizontalHeaderItem(3, __qtablewidgetitem11)
         self.tableDownload.setObjectName(u"tableDownload")
         self.tableDownload.setGeometry(QRect(20, 60, 721, 101))
+        self.btnSaveDownloadURL = QPushButton(self.groupBox_3)
+        self.btnSaveDownloadURL.setObjectName(u"btnSaveDownloadURL")
+        self.btnSaveDownloadURL.setGeometry(QRect(181, 24, 75, 24))
 
         self.verticalLayout_6.addWidget(self.groupBox_3)
 
@@ -167,6 +170,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"URL", None));
         ___qtablewidgetitem11 = self.tableDownload.horizontalHeaderItem(3)
         ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Xpath", None));
+        self.btnSaveDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u914d\u7f6e", None))
     # retranslateUi
 

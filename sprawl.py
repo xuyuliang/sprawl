@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTabl
 from ui_sprawl import Ui_MainWindow
 
 
-def read_table_current_item(table):
+def read_table_current_item(table: QTableWidget):
 
     # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
     if table.currentItem() is None:
@@ -23,6 +23,18 @@ def read_table_current_item(table):
     print('当前选中的行:', row_dict)
     return row_dict
 
+def readDatafromTable(table: QTableWidget, TableFields):
+    cols = table.columnCount()
+    rows = table.rowCount()
+    data = []
+    mydict = {}
+    for row in range(rows):
+        for col in range(cols):
+            mydict[TableFields[col]] = table.item(row,col).data(0)
+        data.append(mydict.copy())
+    # print('整个表所有的数据：',data)
+    return data
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -35,7 +47,8 @@ class MainWindow(QMainWindow):
         self.ui.tableFavorite.cellClicked.connect(self.tableFavoriteCellClicked)
         self.ui.btnInsertDowloadURL.clicked.connect(self.btnInertDowloadURLClicked)
         self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
-        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
+        self.ui.btnSaveDownloadURL.clicked.connect(self.btnSaveDownloadURLclicked)
+        # self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
 
 
 
@@ -43,6 +56,8 @@ class MainWindow(QMainWindow):
         self.showFavorite()
 
     # 公用的函数们
+
+
 
     def writeTable(self, data, table, *HiddenColumns):
         # print(data)
@@ -72,25 +87,16 @@ class MainWindow(QMainWindow):
         table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         table.show()
 
-    # def tableCellOnClick(self, table: QTableWidget):
-    #     # 得出当前item的dict  如： {'row': 2, 'col': 1, 'title': '英文名', 'item': 'Black Love '}
-    #     row = table.currentItem().row()
-    #     col = table.currentItem().column()
-    #     title = table.horizontalHeaderItem(col).text()
-    #     item = table.currentItem().data(0)
-    #     itemdict = {'row': row, 'col': col, 'title': title, 'item': item}
-    #     # print(itemdict)
-    #     # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
-    #     rows = table.columnCount()
-    #     rowdict = dict()
-    #     for i in range(rows):
-    #         rowdict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
-    #     # print(rowdict)
-    #     result = {'itemdict': itemdict, 'rowdict': rowdict}
-    #     print('tableCellOnClick:', result)
-    #     return result
+
 
     # 具体的控件点击
+
+    def btnSaveDownloadURLclicked(self):
+        TableFields = ['ID','seasonID','URL','Xpath']
+        data = readDatafromTable(self.ui.tableDownload,TableFields)
+        # print(data)
+        for item in data:
+            processDB.insert_modifyDownloadURL(item['ID'],item['seasonID'],item['URL'],item['Xpath'])
 
     def btnDeleteDownloadURLclicked(self):
         rst = read_table_current_item(self.ui.tableDownload)
