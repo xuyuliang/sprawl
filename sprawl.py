@@ -20,19 +20,20 @@ def appendRow(table:QTableWidget,lineData):
         item.setData(0, currdata)
         table.setItem(newrow, j, item)
 
+
 def read_table_current_item(table: QTableWidget):
 
     # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
     if table.currentItem() is None:
         return None
-    rows = table.columnCount()
-    row = table.currentItem().row()
+    cols = table.columnCount()
+    curr_row = table.currentItem().row()
     # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
     row_dict = dict()
-    for i in range(rows):
-        row_dict[table.horizontalHeaderItem(i).text()] = table.item(row, i).data(0)
+    for i in range(cols):
+        row_dict[table.horizontalHeaderItem(i).text()] = table.item(curr_row, i).data(0)
     # print(row_dict)
-    print('当前选中的行:', row_dict)
+    print('in read_table_current_item ,当前选中的行:', row_dict)
     return row_dict
 
 
@@ -63,8 +64,6 @@ class MainWindow(QMainWindow):
         self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
         self.ui.btnSaveDownloadURL.clicked.connect(self.btnSaveDownloadURLclicked)
         self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
-
-
 
         # 新建窗口完毕
         self.showFavorite()
@@ -119,31 +118,21 @@ class MainWindow(QMainWindow):
             print('准备delete:', rst)
             if rst is None:
                 return None
-            processDB.deleteDownloadbyID(rst['ID'])
-            # 在界面上删除当前行
             self.ui.tableDownload.removeRow(self.ui.tableDownload.currentItem().row())
+            processDB.deleteDownloadbyID(rst['ID'])
         finally:
             self.blockSignals(False)
-        #准备refresh table
-        # seasonID = rst['SeasonID']
-        # rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
-        # print('selectDowloadURLbySeasonID:', rstdata)
-        # if (len(rstdata) != 0):
-        #     self.writeTable(rstdata, self.ui.tableDownload, 0, 1)
-
 
 
     def tableDownloadCellChanged(self):
         rst = read_table_current_item(self.ui.tableDownload)
         print('准备update或insert URL Xpath:', rst)
-        return None
         if rst is None:
             return None
         processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
-        #刷新当前表
-
 
     def btnInertDowloadURLClicked(self):
+
         # 先获取当前的seasonID
         curr_row = self.ui.tableSearchURL.currentItem().row()
         seasonID = self.ui.tableSearchURL.item(curr_row, 0).data(0)
@@ -152,15 +141,6 @@ class MainWindow(QMainWindow):
         EmptyLine = [-1, seasonID, '', '']
         appendRow(self.ui.tableDownload,EmptyLine)
 
-
-
-        # 读原有的数据
-        # data = processDB.selectDowloadURLbySeasonID(seasonID)
-        # print('data:', data)
-        # # 将空行加到最后一行
-        # data.extend(EmptyLine)
-        # print('data', data)
-        # self.writeTable(data, self.ui.tableDownload, 0, 1)
 
     def tableFavoriteCellClicked(self):
         # self.tableCellOnClick(self.ui.tableFavorite)
