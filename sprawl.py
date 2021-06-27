@@ -73,33 +73,36 @@ class MainWindow(QMainWindow):
 
 
     def writeTable(self, data, table, *HiddenColumns):
-        # print(data)
-        if (len(data) == None):  # 如果数据为空，则画一个空表
-            row = 0
-            col = 0
-        else:
-            for i in range(len(data)):  # 将相关的数据
-                data[i] = list(data[i])  # 将获取的数据转为列表形式
-            row = len(data)
-            col = len(data[0])
-        table.setRowCount(row)
-        table.setColumnCount(col)
-        # 写入数据
-        for i in range(row):
-            for j in range(col):
-                # print(i,j,data[i][j])
-                # self.Table_Data(table,i, j, data[i][j])
-                currdata = data[i][j]
-                item = QtWidgets.QTableWidgetItem()
-                item.setData(0, currdata)
-                table.setItem(i, j, item)
-        # 处理隐藏列宽
-        for hid_col in HiddenColumns:
-            table.setColumnHidden(hid_col, True)
-        # 自动扩展列宽，适应内容
-        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        table.show()
-
+        try:
+            table.blockSignals(True)
+            # print(data)
+            if (len(data) == None):  # 如果数据为空，则画一个空表
+                row = 0
+                col = 0
+            else:
+                for i in range(len(data)):  # 将相关的数据
+                    data[i] = list(data[i])  # 将获取的数据转为列表形式
+                row = len(data)
+                col = len(data[0])
+            table.setRowCount(row)
+            table.setColumnCount(col)
+            # 写入数据
+            for i in range(row):
+                for j in range(col):
+                    # print(i,j,data[i][j])
+                    # self.Table_Data(table,i, j, data[i][j])
+                    currdata = data[i][j]
+                    item = QtWidgets.QTableWidgetItem()
+                    item.setData(0, currdata)
+                    table.setItem(i, j, item)
+            # 处理隐藏列宽
+            for hid_col in HiddenColumns:
+                table.setColumnHidden(hid_col, True)
+            # 自动扩展列宽，适应内容
+            table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            table.show()
+        finally:
+            table.blockSignals(False)
 
 
     # 具体的控件点击
@@ -112,13 +115,14 @@ class MainWindow(QMainWindow):
             processDB.insert_modifyDownloadURL(item['ID'],item['seasonID'],item['URL'],item['Xpath'])
 
     def btnDeleteDownloadURLclicked(self):
+        table = self.ui.tableDownload
         self.blockSignals(True)
         try:
-            rst = read_table_current_item(self.ui.tableDownload)
+            rst = read_table_current_item(table)
             print('准备delete:', rst)
             if rst is None:
                 return None
-            self.ui.tableDownload.removeRow(self.ui.tableDownload.currentItem().row())
+            self.ui.tableDownload.removeRow(table.currentItem().row())
             processDB.deleteDownloadbyID(rst['ID'])
         finally:
             self.blockSignals(False)
@@ -132,14 +136,18 @@ class MainWindow(QMainWindow):
         processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
 
     def btnInertDowloadURLClicked(self):
-
-        # 先获取当前的seasonID
-        curr_row = self.ui.tableSearchURL.currentItem().row()
-        seasonID = self.ui.tableSearchURL.item(curr_row, 0).data(0)
-        print(seasonID)
-        # 写一个空行  [1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]']
-        EmptyLine = [-1, seasonID, '', '']
-        appendRow(self.ui.tableDownload,EmptyLine)
+        table = self.ui.tableDownload
+        table.blockSignals(True)
+        try:
+            # 先获取当前的seasonID
+            curr_row = self.ui.tableSearchURL.currentItem().row()
+            seasonID = self.ui.tableSearchURL.item(curr_row, 0).data(0)
+            print(seasonID)
+            # 写一个空行  [1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]']
+            EmptyLine = [-1, seasonID, '', '']
+            appendRow(table,EmptyLine)
+        finally:
+            table.blockSignals(False)
 
 
     def tableFavoriteCellClicked(self):
