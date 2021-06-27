@@ -129,11 +129,16 @@ class MainWindow(QMainWindow):
 
 
     def tableDownloadCellChanged(self):
-        rst = read_table_current_item(self.ui.tableDownload)
-        print('准备update或insert URL Xpath:', rst)
-        if rst is None:
-            return None
-        processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
+        table = self.ui.tableDownload
+        try:
+            table.blockSignals(True)
+            rst = read_table_current_item(table)
+            print('准备update或insert URL Xpath:', rst)
+            if rst is None:
+                return None
+            processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
+        finally:
+            table.blockSignals(False)
 
     def btnInertDowloadURLClicked(self):
         table = self.ui.tableDownload
@@ -155,14 +160,11 @@ class MainWindow(QMainWindow):
         read_table_current_item(self.ui.tableFavorite)
 
     def tableDownloadClicked(self):
-        self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
-        self.ui.tableDownload.edit = True
-        rst = read_table_current_item(self.ui.tableSearchURL)
+        # self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
+        # self.ui.tableDownload.edit = True
+        rst = read_table_current_item(self.ui.tableDownload)
         print('tableDownloadClicked: 当前行：',rst)
-        ID = rst['ID']
-        enName = rst['英文名']
-        chName = rst['中文名']
-        valid = rst['正在追']
+
 
 
     def tableSearchURLClicked(self):
