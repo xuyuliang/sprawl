@@ -20,6 +20,22 @@ def appendRow(table:QTableWidget,lineData):
         item.setData(0, currdata)
         table.setItem(newrow, j, item)
 
+def write_table_current_item(table:QTableWidget,data:[]):
+    ''' 在QTableWidget的当前行写入data中的数据'''
+    # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
+    if table.currentItem() is None:
+        return None
+    cols = table.columnCount()
+    curr_row = table.currentItem().row()
+    try:
+        table.blockSignals(True)
+        for j in range(cols):
+            currdata = data[j]
+            item = QtWidgets.QTableWidgetItem()
+            item.setData(0, currdata)
+            table.setItem(curr_row, j, item)
+    finally:
+        table.blockSignals(False)
 
 def read_table_current_item(table: QTableWidget):
 
@@ -39,6 +55,7 @@ def read_table_current_item(table: QTableWidget):
 
 
 def readDatafromTable(table: QTableWidget, TableFields):
+    ''' 将某个QTableWidget 的所有数据读入一个二维的{[]} 中'''
     cols = table.columnCount()
     rows = table.rowCount()
     data = []
@@ -49,6 +66,38 @@ def readDatafromTable(table: QTableWidget, TableFields):
         data.append(mydict.copy())
     # print('整个表所有的数据：',data)
     return data
+
+def writeTable(data, table : QTableWidget, *HiddenColumns):
+    try:
+        table.blockSignals(True)
+        # print(data)
+        if (len(data) == None):  # 如果数据为空，则画一个空表
+            row = 0
+            col = 0
+        else:
+            for i in range(len(data)):  # 将相关的数据
+                data[i] = list(data[i])  # 将获取的数据转为列表形式
+            row = len(data)
+            col = len(data[0])
+        table.setRowCount(row)
+        table.setColumnCount(col)
+        # 写入数据
+        for i in range(row):
+            for j in range(col):
+                # print(i,j,data[i][j])
+                # self.Table_Data(table,i, j, data[i][j])
+                currdata = data[i][j]
+                item = QtWidgets.QTableWidgetItem()
+                item.setData(0, currdata)
+                table.setItem(i, j, item)
+        # 处理隐藏列宽
+        for hid_col in HiddenColumns:
+            table.setColumnHidden(hid_col, True)
+        # 自动扩展列宽，适应内容
+        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        table.show()
+    finally:
+        table.blockSignals(False)
 
 
 class MainWindow(QMainWindow):
@@ -72,37 +121,6 @@ class MainWindow(QMainWindow):
 
 
 
-    def writeTable(self, data, table, *HiddenColumns):
-        try:
-            table.blockSignals(True)
-            # print(data)
-            if (len(data) == None):  # 如果数据为空，则画一个空表
-                row = 0
-                col = 0
-            else:
-                for i in range(len(data)):  # 将相关的数据
-                    data[i] = list(data[i])  # 将获取的数据转为列表形式
-                row = len(data)
-                col = len(data[0])
-            table.setRowCount(row)
-            table.setColumnCount(col)
-            # 写入数据
-            for i in range(row):
-                for j in range(col):
-                    # print(i,j,data[i][j])
-                    # self.Table_Data(table,i, j, data[i][j])
-                    currdata = data[i][j]
-                    item = QtWidgets.QTableWidgetItem()
-                    item.setData(0, currdata)
-                    table.setItem(i, j, item)
-            # 处理隐藏列宽
-            for hid_col in HiddenColumns:
-                table.setColumnHidden(hid_col, True)
-            # 自动扩展列宽，适应内容
-            table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-            table.show()
-        finally:
-            table.blockSignals(False)
 
 
     # 具体的控件点击
@@ -136,7 +154,11 @@ class MainWindow(QMainWindow):
             print('准备update或insert URL Xpath:', rst)
             if rst is None:
                 return None
-            processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
+            data = processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
+            if data is None:
+                data=[(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])]
+            print('insert的结果', data[0])
+            write_table_current_item(table,list(data[0]))
         finally:
             table.blockSignals(False)
 
@@ -175,15 +197,15 @@ class MainWindow(QMainWindow):
         rstdata = processDB.selectDowloadURLbySeasonID(seasonID)
         print('selectDowloadURLbySeasonID:', rstdata)
         if (len(rstdata) != 0):
-            self.writeTable(rstdata, self.ui.tableDownload, 0, 1)
+            writeTable(rstdata, self.ui.tableDownload, 0, 1)
 
     def showFavorite(self):
         rstdata = processDB.showFavoriteSeasons()
-        self.writeTable(rstdata, self.ui.tableFavorite, 0)
+        writeTable(rstdata, self.ui.tableFavorite, 0)
 
     def searchSeason(self):
         rstdata = processDB.selectSeasonByName(self.ui.edtName.text())
-        self.writeTable(rstdata, self.ui.tableSearchURL, 0)
+        writeTable(rstdata, self.ui.tableSearchURL, 0)
 
 
 if __name__ == "__main__":

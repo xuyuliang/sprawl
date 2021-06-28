@@ -37,17 +37,23 @@ def insert_modifyDownloadURL(ID,seasonID,URL,Xpath):
     cur.execute(sql,[ID])
     rst = cur.fetchall()
     print(rst,len(rst) == 0)
+    id = -1
     if (len(rst) == 0) :
-        addDownloadURL(seasonID,URL,Xpath)
+        rst = addDownloadURL(seasonID,URL,Xpath)
     else:
         modifyDownloadURL(ID,URL,Xpath)
-
+        rst = None
+    return rst
 
 
 def addDownloadURL(seasonID,URL,Xpath):
     sql = "insert into download(seasonID,URL,Xpath) values(?,?,?)"
     cur.execute(sql, [seasonID, URL,Xpath])
     conn.commit()
+    sql = "select ID,seasonID,URL,Xpath from download where seasonID=? and URL=? and Xpath=?"
+    cur.execute(sql,[seasonID, URL,Xpath])
+    return cur.fetchall()
+
 
 def modifyDownloadURL(ID,URL,Xpath):
     print(URL)
