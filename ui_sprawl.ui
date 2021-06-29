@@ -186,7 +186,7 @@
              <x>20</x>
              <y>60</y>
              <width>721</width>
-             <height>101</height>
+             <height>121</height>
             </rect>
            </property>
            <column>
@@ -221,6 +221,19 @@
            </property>
            <property name="text">
             <string>保存</string>
+           </property>
+          </widget>
+          <widget class="QTextBrowser" name="textBrowserDownload">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>190</y>
+             <width>721</width>
+             <height>351</height>
+            </rect>
+           </property>
+           <property name="openExternalLinks">
+            <bool>true</bool>
            </property>
           </widget>
          </widget>

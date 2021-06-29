@@ -1,6 +1,16 @@
 import requests
 from lxml import etree
 # 函数化
+def outputXpath(URL,Xpath):
+    r = requests.get(URL)
+    print(r.status_code)
+    html = r.text
+    txt = etree.HTML(html)
+    txt2 = txt.xpath(Xpath)
+    for t in txt2:
+        print(t.xpath('*'))
+
+
 def showHTMLsnippet(URL,Xpath):
     r = requests.get(URL)
     print(r.status_code)
@@ -23,4 +33,5 @@ def showHTMLsnippet(URL,Xpath):
     for item in dt :
         print(item)
 #测试
-showHTMLsnippet('https://www.jsr9.com/subject/29500.html','/html/body/div[2]/div[1]/div[2]/div[3]/div/a')
+# showHTMLsnippet('https://www.jsr9.com/subject/29500.html','/html/body/div[2]/div[1]/div[2]/div[3]/div/a')
+outputXpath('https://www.jsr9.com/subject/29500.html','/html/body/div[2]/div[1]/div[2]/div[3]/div/a')

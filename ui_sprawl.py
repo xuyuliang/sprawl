@@ -112,10 +112,14 @@ class Ui_MainWindow(object):
         __qtablewidgetitem11 = QTableWidgetItem()
         self.tableDownload.setHorizontalHeaderItem(3, __qtablewidgetitem11)
         self.tableDownload.setObjectName(u"tableDownload")
-        self.tableDownload.setGeometry(QRect(20, 60, 721, 101))
+        self.tableDownload.setGeometry(QRect(20, 60, 721, 121))
         self.btnSaveDownloadURL = QPushButton(self.groupBox_3)
         self.btnSaveDownloadURL.setObjectName(u"btnSaveDownloadURL")
         self.btnSaveDownloadURL.setGeometry(QRect(181, 24, 75, 24))
+        self.textBrowserDownload = QTextBrowser(self.groupBox_3)
+        self.textBrowserDownload.setObjectName(u"textBrowserDownload")
+        self.textBrowserDownload.setGeometry(QRect(20, 190, 721, 351))
+        self.textBrowserDownload.setOpenExternalLinks(True)
 
         self.verticalLayout_6.addWidget(self.groupBox_3)
 

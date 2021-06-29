@@ -180,7 +180,8 @@ class MainWindow(QMainWindow):
         # self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         # self.ui.tableDownload.edit = True
         rst = read_table_current_line(self.ui.tableDownload)
-        print('tableDownloadClicked: 当前行：',rst)
+        print('tableDownloadClicked: 当前行：',rst['URL'],rst['Xpath'])
+        self.ui.textBrowserDownload.sou
 
 
 
