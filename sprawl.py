@@ -7,6 +7,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget, QHeaderView
 from ui_sprawl import Ui_MainWindow
 
+# 公用的函数们
 
 def appendRow(table:QTableWidget,lineData):
     ''' 在给定的table上新增一个空行 '''
@@ -37,7 +38,7 @@ def write_table_current_line(table:QTableWidget,data:[]):
     finally:
         table.blockSignals(False)
 
-def read_table_current_item(table: QTableWidget):
+def read_table_current_line(table: QTableWidget):
     ''' 读取当前QTableWidget选中的行，若没选中，返回空dict{} '''
     if table.currentItem() is None:
         return None
@@ -117,26 +118,22 @@ class MainWindow(QMainWindow):
         # 新建窗口完毕
         self.showFavorite()
 
-    # 公用的函数们
-
-
-
-
 
     # 具体的控件点击
 
     def btnSaveDownloadURLclicked(self):
+        ''' 事实上这个功能是不需要的，每次cellchange后都存盘了 '''
         TableFields = ['ID','seasonID','URL','Xpath']
         data = readDatafromTable(self.ui.tableDownload,TableFields)
         # print(data)
-        for item in data:
-            processDB.insert_modifyDownloadURL(item['ID'],item['seasonID'],item['URL'],item['Xpath'])
+        for curr_row in data:
+            processDB.modifyDownloadURL(curr_row['ID'],curr_row['URL'],curr_row['Xpath'])
 
     def btnDeleteDownloadURLclicked(self):
         table = self.ui.tableDownload
         self.blockSignals(True)
         try:
-            rst = read_table_current_item(table)
+            rst = read_table_current_line(table)
             print('准备delete:', rst)
             if rst is None:
                 return None
@@ -150,15 +147,11 @@ class MainWindow(QMainWindow):
         table = self.ui.tableDownload
         try:
             table.blockSignals(True) #避免自我触发
-            rst = read_table_current_item(table) # 假如鼠标被移到其他行了，这里读到也是刚刚被更改的行，而不是当前行
-            print('准备update或insert URL Xpath:', rst)
+            rst = read_table_current_line(table) # 假如鼠标被移到其他行了，这里读到也是刚刚被更改的行，而不是当前行
+            print('准备update URL Xpath:', rst)
             if rst is None: # 这一行其实永远不会None
                 return None
-            data = processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
-            if data is None:  #说明是modify
-                data=[(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])]
-            print('insert的结果', data[0])
-            write_table_current_line(table,list(data[0]))
+            processDB.modifyDownloadURL(rst['ID'], rst['URL'], rst['Xpath'])
         finally:
             table.blockSignals(False)
 
@@ -170,27 +163,29 @@ class MainWindow(QMainWindow):
             curr_row = self.ui.tableSearchURL.currentItem().row()
             seasonID = self.ui.tableSearchURL.item(curr_row, 0).data(0)
             print(seasonID)
+            ID = processDB.addDownloadURL(seasonID,'','')
             # 写一个空行  [1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]']
-            EmptyLine = [-1, seasonID, '', '']
+            EmptyLine = [ID, seasonID, '', '']
             appendRow(table,EmptyLine)
+
         finally:
             table.blockSignals(False)
 
 
     def tableFavoriteCellClicked(self):
         # self.tableCellOnClick(self.ui.tableFavorite)
-        read_table_current_item(self.ui.tableFavorite)
+        read_table_current_line(self.ui.tableFavorite)
 
     def tableDownloadClicked(self):
         # self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         # self.ui.tableDownload.edit = True
-        rst = read_table_current_item(self.ui.tableDownload)
+        rst = read_table_current_line(self.ui.tableDownload)
         print('tableDownloadClicked: 当前行：',rst)
 
 
 
     def tableSearchURLClicked(self):
-        result = read_table_current_item(self.ui.tableSearchURL)
+        result = read_table_current_line(self.ui.tableSearchURL)
         seasonID = result['ID']
         print(seasonID)
         # show tableDownload

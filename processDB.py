@@ -47,12 +47,15 @@ def insert_modifyDownloadURL(ID,seasonID,URL,Xpath):
 
 
 def addDownloadURL(seasonID,URL,Xpath):
+    '''  返回表的第一个元素即ID '''
     sql = "insert into download(seasonID,URL,Xpath) values(?,?,?)"
     cur.execute(sql, [seasonID, URL,Xpath])
     conn.commit()
     sql = "select ID,seasonID,URL,Xpath from download where seasonID=? and URL=? and Xpath=?"
     cur.execute(sql,[seasonID, URL,Xpath])
-    return cur.fetchall()
+    rst = cur.fetchone()
+    # print('addDownloadURL的ID',rst[0])
+    return rst[0]
 
 
 def modifyDownloadURL(ID,URL,Xpath):
