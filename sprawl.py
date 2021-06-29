@@ -9,7 +9,7 @@ from ui_sprawl import Ui_MainWindow
 
 
 def appendRow(table:QTableWidget,lineData):
-    # 界面上增加一个空行
+    ''' 在给定的table上新增一个空行 '''
     newrow = table.rowCount()
     print('newrow', newrow)
     table.insertRow(newrow)
@@ -20,9 +20,8 @@ def appendRow(table:QTableWidget,lineData):
         item.setData(0, currdata)
         table.setItem(newrow, j, item)
 
-def write_table_current_item(table:QTableWidget,data:[]):
-    ''' 在QTableWidget的当前行写入data中的数据'''
-    # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
+def write_table_current_line(table:QTableWidget,data:[]):
+    ''' 在QTableWidget的当前行写入data中的数据，若没选中行，返回None'''
     if table.currentItem() is None:
         return None
     cols = table.columnCount()
@@ -34,12 +33,12 @@ def write_table_current_item(table:QTableWidget,data:[]):
             item = QtWidgets.QTableWidgetItem()
             item.setData(0, currdata)
             table.setItem(curr_row, j, item)
+        return 'good'
     finally:
         table.blockSignals(False)
 
 def read_table_current_item(table: QTableWidget):
-
-    # 如果当前不在编辑状态，currentItem就是None，说明这个change不是由用户主动造成的
+    ''' 读取当前QTableWidget选中的行，若没选中，返回空dict{} '''
     if table.currentItem() is None:
         return None
     cols = table.columnCount()
@@ -68,6 +67,7 @@ def readDatafromTable(table: QTableWidget, TableFields):
     return data
 
 def writeTable(data, table : QTableWidget, *HiddenColumns):
+    '''把 data [(),()]中的所有数据写入QTableWidget'''
     try:
         table.blockSignals(True)
         # print(data)
@@ -149,16 +149,16 @@ class MainWindow(QMainWindow):
     def tableDownloadCellChanged(self):
         table = self.ui.tableDownload
         try:
-            table.blockSignals(True)
-            rst = read_table_current_item(table)
+            table.blockSignals(True) #避免自我触发
+            rst = read_table_current_item(table) # 假如鼠标被移到其他行了，这里读到也是刚刚被更改的行，而不是当前行
             print('准备update或insert URL Xpath:', rst)
-            if rst is None:
+            if rst is None: # 这一行其实永远不会None
                 return None
             data = processDB.insert_modifyDownloadURL(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])
-            if data is None:
+            if data is None:  #说明是modify
                 data=[(rst['ID'], rst['SeasonID'], rst['URL'], rst['Xpath'])]
             print('insert的结果', data[0])
-            write_table_current_item(table,list(data[0]))
+            write_table_current_line(table,list(data[0]))
         finally:
             table.blockSignals(False)
 

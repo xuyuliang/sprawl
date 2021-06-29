@@ -33,11 +33,11 @@ def selectDowloadURLbySeasonID(SeasonID:int):
 # print( selectDowloadURLbySeasonID(274) )
 
 def insert_modifyDownloadURL(ID,seasonID,URL,Xpath):
+    ''' 若已经存在id，就modify，返回None; 否则insert，返回insert的结果。 '''
     sql = "select * from download where ID = ?"
     cur.execute(sql,[ID])
     rst = cur.fetchall()
     print(rst,len(rst) == 0)
-    id = -1
     if (len(rst) == 0) :
         rst = addDownloadURL(seasonID,URL,Xpath)
     else:
