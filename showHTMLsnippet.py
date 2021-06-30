@@ -1,14 +1,24 @@
+import lxml
 import requests
 from lxml import etree
 # 函数化
+
+
+
 def outputXpath(URL,Xpath):
     r = requests.get(URL)
     print(r.status_code)
     html = r.text
     txt = etree.HTML(html)
-    txt2 = txt.xpath(Xpath)
-    for t in txt2:
-        print(t.xpath('*'))
+    txt2 = txt.xpath(Xpath+'//text()')
+    print(txt2)
+    # htmldoc = r.text
+    # html = lxml.etree.parse(htmldoc)
+    # res = html.xpath(Xpath)
+    # info = res[0].xpath('string(.)')
+    # print(info)
+
+
 
 
 def showHTMLsnippet(URL,Xpath):
