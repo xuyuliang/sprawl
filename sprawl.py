@@ -2,6 +2,7 @@ from PySide6 import QtWidgets, QtCore
 from PySide6.QtCore import QEvent, QObject
 
 import processDB
+import showHTMLsnippet
 import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget, QHeaderView
@@ -123,11 +124,11 @@ class MainWindow(QMainWindow):
 
     def btnSaveDownloadURLclicked(self):
         ''' 事实上这个功能是不需要的，每次cellchange后都存盘了 '''
-        TableFields = ['ID','seasonID','URL','Xpath']
+        TableFields = ['ID','seasonID','URL','Xpath_title','Xpath_link']
         data = readDatafromTable(self.ui.tableDownload,TableFields)
         # print(data)
         for curr_row in data:
-            processDB.modifyDownloadURL(curr_row['ID'],curr_row['URL'],curr_row['Xpath'])
+            processDB.modifyDownloadURL(curr_row['ID'],curr_row['URL'],curr_row['Xpath_title'],curr_row['Xpath_link'])
 
     def btnDeleteDownloadURLclicked(self):
         table = self.ui.tableDownload
@@ -151,7 +152,7 @@ class MainWindow(QMainWindow):
             print('准备update URL Xpath:', rst)
             if rst is None: # 这一行其实永远不会None
                 return None
-            processDB.modifyDownloadURL(rst['ID'], rst['URL'], rst['Xpath'])
+            processDB.modifyDownloadURL(rst['ID'], rst['URL'], rst['Xpath_title'],rst['Xpath_link'])
         finally:
             table.blockSignals(False)
 
@@ -164,8 +165,8 @@ class MainWindow(QMainWindow):
             seasonID = self.ui.tableSearchURL.item(curr_row, 0).data(0)
             print(seasonID)
             ID = processDB.addDownloadURL(seasonID,'','')
-            # 写一个空行  [1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]']
-            EmptyLine = [ID, seasonID, '', '']
+            # 写一个空行  [1, 274, 'https://www.jsr9.com/subject/29500.html', ' /html/body/div[2]/div[1]/div[2]/div[3]','/html/body/div[5]/a[@href]']
+            EmptyLine = [ID, seasonID, '', '','']
             appendRow(table,EmptyLine)
 
         finally:
@@ -180,8 +181,14 @@ class MainWindow(QMainWindow):
         # self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         # self.ui.tableDownload.edit = True
         rst = read_table_current_line(self.ui.tableDownload)
-        print('tableDownloadClicked: 当前行：',rst['URL'],rst['Xpath'])
-        self.ui.textBrowserDownload.sou
+        print('tableDownloadClicked: 当前行：',rst['URL'],rst['Xpath_title'],rst['Xpath_link'])
+        titles_links = showHTMLsnippet.outputXpath(rst['URL'],rst['Xpath_title'],rst['Xpath_link'])
+        txt = ''
+        for title_link in titles_links:
+            txt = txt + title_link['title']+ '\n\r' + title_link['link'] + '\n\r'
+        self.ui.textBrowserDownload.setText(txt)
+
+
 
 
 

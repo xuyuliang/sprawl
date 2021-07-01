@@ -5,43 +5,27 @@ from lxml import etree
 
 
 
-def outputXpath(URL,Xpath):
+def outputXpath(URL,Xpath_title,Xpath_link):
+    ''' 返回一个[{'title':'标题','link':'链接'}] '''
     r = requests.get(URL)
     print(r.status_code)
     html = r.text
     txt = etree.HTML(html)
-    txt2 = txt.xpath(Xpath+'//text()')
-    print(txt2)
-    # htmldoc = r.text
-    # html = lxml.etree.parse(htmldoc)
-    # res = html.xpath(Xpath)
-    # info = res[0].xpath('string(.)')
-    # print(info)
+
+    titles = txt.xpath(Xpath_title)
+    links = txt.xpath(Xpath_link)
+    titles_links = zip(titles,links)
+    dt = {}
+    rst = [dt]
+    for title,link in titles_links:
+        dt['title'] = title.xpath('string(.)')
+        dt['link'] = link.xpath('string(.)')
+        rst.append(dt)
+        # print(title.xpath('string(.)') + link.xpath('string(.)'))
+        # print(rst)
+    return rst
 
 
-
-
-def showHTMLsnippet(URL,Xpath):
-    r = requests.get(URL)
-    print(r.status_code)
-    html = r.text
-    txt = etree.HTML(html)
-    txt2 = txt.xpath(Xpath)
-    dt=[]
-    for t in txt2[0:]:
-        row = []
-        title1 = t.xpath('p/text()[1]')[0]
-        title2 = t.xpath('p/em/text()')[0]
-        title = title1+title2
-        # print(title)
-
-        url = t.xpath('@href')[0]
-        row.append(title)
-        row.append(url)
-        dt.append(row)
-
-    for item in dt :
-        print(item)
 #测试
-# showHTMLsnippet('https://www.jsr9.com/subject/29500.html','/html/body/div[2]/div[1]/div[2]/div[3]/div/a')
-outputXpath('https://www.jsr9.com/subject/29500.html','/html/body/div[2]/div[1]/div[2]/div[3]/div/a')
+
+outputXpath('https://www.jsr9.com/subject/29500.html',"/html/body/div[@class='mb cl']/div[@class='ml']/div[@class='viewbox']/div[@class='sl cl']/div[@class='tinfo']/a/p[@class='torrent']","/html/body/div[@class='mb cl']/div[@class='ml']/div[@class='viewbox']/div[@class='sl cl']/div[@class='tinfo']/ul[@class='btTree treeview']")

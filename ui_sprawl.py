@@ -101,8 +101,8 @@ class Ui_MainWindow(object):
         self.btnInsertDowloadURL.setObjectName(u"btnInsertDowloadURL")
         self.btnInsertDowloadURL.setGeometry(QRect(19, 24, 75, 24))
         self.tableDownload = QTableWidget(self.groupBox_3)
-        if (self.tableDownload.columnCount() < 4):
-            self.tableDownload.setColumnCount(4)
+        if (self.tableDownload.columnCount() < 5):
+            self.tableDownload.setColumnCount(5)
         __qtablewidgetitem8 = QTableWidgetItem()
         self.tableDownload.setHorizontalHeaderItem(0, __qtablewidgetitem8)
         __qtablewidgetitem9 = QTableWidgetItem()
@@ -111,6 +111,8 @@ class Ui_MainWindow(object):
         self.tableDownload.setHorizontalHeaderItem(2, __qtablewidgetitem10)
         __qtablewidgetitem11 = QTableWidgetItem()
         self.tableDownload.setHorizontalHeaderItem(3, __qtablewidgetitem11)
+        __qtablewidgetitem12 = QTableWidgetItem()
+        self.tableDownload.setHorizontalHeaderItem(4, __qtablewidgetitem12)
         self.tableDownload.setObjectName(u"tableDownload")
         self.tableDownload.setGeometry(QRect(20, 60, 721, 121))
         self.btnSaveDownloadURL = QPushButton(self.groupBox_3)
@@ -173,7 +175,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem10 = self.tableDownload.horizontalHeaderItem(2)
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"URL", None));
         ___qtablewidgetitem11 = self.tableDownload.horizontalHeaderItem(3)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Xpath", None));
+        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Xpath_title", None));
+        ___qtablewidgetitem12 = self.tableDownload.horizontalHeaderItem(4)
+        ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"Xpath_link", None));
         self.btnSaveDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u914d\u7f6e", None))
     # retranslateUi

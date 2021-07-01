@@ -27,42 +27,42 @@ def delCurrPos(seasonID,currDate):
 # （4）删除某个seasonID的所有网址
 # 因为有ID，所以可以写多个网址
 def selectDowloadURLbySeasonID(SeasonID:int):
-    sql = "select id,seasonid,URL,Xpath from download where seasonid = ? "
+    sql = "select id,seasonid,URL, Xpath_title, Xpath_link from download where seasonid = ? "
     cur.execute(sql,[SeasonID])
     return cur.fetchall()
 # print( selectDowloadURLbySeasonID(274) )
 
-def insert_modifyDownloadURL(ID,seasonID,URL,Xpath):
+def insert_modifyDownloadURL(ID,seasonID,URL,Xpath_title,Xpath_link):
     ''' 若已经存在id，就modify，返回None; 否则insert，返回insert的结果。 '''
     sql = "select * from download where ID = ?"
     cur.execute(sql,[ID])
     rst = cur.fetchall()
     print(rst,len(rst) == 0)
     if (len(rst) == 0) :
-        rst = addDownloadURL(seasonID,URL,Xpath)
+        rst = addDownloadURL(seasonID,URL,Xpath_title,Xpath_link)
     else:
-        modifyDownloadURL(ID,URL,Xpath)
+        modifyDownloadURL(ID,URL,Xpath_title,Xpath_link)
         rst = None
     return rst
 
 
-def addDownloadURL(seasonID,URL,Xpath):
+def addDownloadURL(seasonID,URL,Xpath_title,Xpath_link):
     '''  返回表的第一个元素即ID '''
-    sql = "insert into download(seasonID,URL,Xpath) values(?,?,?)"
-    cur.execute(sql, [seasonID, URL,Xpath])
+    sql = "insert into download(seasonID,URL,Xpath_title,Xpath_link) values(?,?,?,?)"
+    cur.execute(sql, [seasonID, URL, Xpath_title, Xpath_link])
     conn.commit()
-    sql = "select ID,seasonID,URL,Xpath from download where seasonID=? and URL=? and Xpath=?"
-    cur.execute(sql,[seasonID, URL,Xpath])
+    sql = "select ID,seasonID,URL, Xpath_title, Xpath_link from download where seasonID=? and URL=? and Xpath_title=? and Xpath_link=?"
+    cur.execute(sql,[seasonID, URL, Xpath_title, Xpath_link])
     rst = cur.fetchone()
     # print('addDownloadURL的ID',rst[0])
     return rst[0]
 
 
-def modifyDownloadURL(ID,URL,Xpath):
+def modifyDownloadURL(ID,URL, Xpath_title, Xpath_link):
     print(URL)
-    print(Xpath)
-    sql = "update download set URL=? , Xpath=? where ID = ?"
-    cur.execute(sql,[URL,Xpath,ID])
+    print( Xpath_title, Xpath_link)
+    sql = "update download set URL=? ,Xpath_title=?, Xpath_link=? where ID = ?"
+    cur.execute(sql,[URL, Xpath_title, Xpath_link,ID])
     conn.commit()
 
 def deleteDownloadbyID(ID):
@@ -75,11 +75,11 @@ def deleteDownloadbySeasonID(seasonID):
     cur.execute(sql,[seasonID])
     conn.commit()
 
-# addDownloadURL(1,r"http://www.slupro.com/meiju/328724",r"/html/body/div[1]/div/ul[2]")
-# modifyDownloadURL(1,r'https://www.jsr9.com/subject/29500.html',r'/html/body/div[2]/div[1]/div[2]/div[3]/div/a')
+# addDownloadURL(1,r"http://www.slupro.com/meiju/328724",r"/html/body/div[1]/div/ul[2]",r"/下载链接")
+# modifyDownloadURL(1,r'https://www.jsr9.com/subject/29500.html',r'/html/body/div[2]/div[1]/div[2]/div[3]/div/a',r'什么什么')
 # deleteDownloadbyID(1)
 # deleteDownloadbySeasonID(1)
-# insert_modifyDownloadURL(-1,274,'xxx','yyy')
+# insert_modifyDownloadURL(-1,274,'xxx','yyy','new')
 
 ### 处理play表
 # （1）写入一本剧

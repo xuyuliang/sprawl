@@ -206,7 +206,12 @@
            </column>
            <column>
             <property name="text">
-             <string>Xpath</string>
+             <string>Xpath_title</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Xpath_link</string>
             </property>
            </column>
           </widget>
