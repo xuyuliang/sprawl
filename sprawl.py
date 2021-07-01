@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtCore import QEvent, QObject
+from PySide6.QtGui import Qt
 
 import processDB
 import showHTMLsnippet
@@ -178,14 +179,26 @@ class MainWindow(QMainWindow):
         read_table_current_line(self.ui.tableFavorite)
 
     def tableDownloadClicked(self):
-        # self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
-        # self.ui.tableDownload.edit = True
+        # 如果点击在URL上，则显示所有两个Xpath zip后的结果，如果点击在单个Xpath上，则显示它自身的结果
+        self.setCursor(Qt.BusyCursor)
+        self.ui.tableDownload.edit = True
         rst = read_table_current_line(self.ui.tableDownload)
         print('tableDownloadClicked: 当前行：',rst['URL'],rst['Xpath_title'],rst['Xpath_link'])
-        titles_links = showHTMLsnippet.outputXpath(rst['URL'],rst['Xpath_title'],rst['Xpath_link'])
+        current_col = self.ui.tableDownload.horizontalHeaderItem(self.ui.tableDownload.currentColumn()).text()
+        # print(current_col)
+        try:
+            if current_col == 'URL':
+                titles_links = showHTMLsnippet.outputXpath(rst['URL'],rst['Xpath_title'],rst['Xpath_link'])
+            else: # 当前点击的列是 Xpath_title 或者 Xpath_link
+                titles_links = showHTMLsnippet.outputXpath(rst['URL'], rst[current_col])
+        except Exception as e:
+            self.ui.textBrowserDownload.setText('Xpath有错误，无法解析 \n\r'+repr(e))
+            return
+        finally:
+            self.unsetCursor()
         txt = ''
         for title_link in titles_links:
-            txt = txt + title_link['title']+ '\n\r' + title_link['link'] + '\n\r'
+            txt = txt + title_link['title']+ '\n\r' + title_link['link'] + '\n\r' +'------------------------------------\n\r'
         self.ui.textBrowserDownload.setText(txt)
 
 

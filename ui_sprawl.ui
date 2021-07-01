@@ -186,8 +186,11 @@
              <x>20</x>
              <y>60</y>
              <width>721</width>
-             <height>121</height>
+             <height>141</height>
             </rect>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
            </property>
            <column>
             <property name="text">
@@ -232,9 +235,9 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>190</y>
+             <y>203</y>
              <width>721</width>
-             <height>351</height>
+             <height>371</height>
             </rect>
            </property>
            <property name="openExternalLinks">
