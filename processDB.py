@@ -175,6 +175,10 @@ def deleteSeason(ID):
     cur.execute(sql,[ID])
     conn.commit()
 
+def updateSeason(ID,enName,chName,valid):
+    sql = "update season set enName=? , chName=? , valid=? where ID =?"
+    cur.execute(sql,[enName,chName,valid,ID])
+    conn.commit()
 
 
 # n = addSeason('breaking bad','极品毒师')
@@ -182,7 +186,7 @@ def deleteSeason(ID):
 # fetchPlayandSeasons(1)
 # deleteSeason(6)
 # fetchPlayandSeasons(1)
-
+# updateSeason(274,'Young Sheldon season 4','小谢尔顿 第四季','1')
 ### 处理日历calendar
 # 写入一条记录
 def direct_insert_calendar(seasonID,dueDate,SnEm):

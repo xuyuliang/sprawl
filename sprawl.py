@@ -11,6 +11,11 @@ from ui_sprawl import Ui_MainWindow
 
 # 公用的函数们
 
+def getCurrColumnName(table:QTableWidget):
+    current_col = table.horizontalHeaderItem(table.currentColumn()).text()
+    # print(current_col)
+    return current_col
+
 def appendRow(table:QTableWidget,lineData):
     ''' 在给定的table上新增一个空行 '''
     newrow = table.rowCount()
@@ -73,7 +78,7 @@ def writeTable(data, table : QTableWidget, *HiddenColumns):
     '''把 data [(),()]中的所有数据写入QTableWidget'''
     try:
         table.blockSignals(True)
-        # print(data)
+        print(data)
         if (len(data) == None):  # 如果数据为空，则画一个空表
             row = 0
             col = 0
@@ -116,12 +121,22 @@ class MainWindow(QMainWindow):
         self.ui.btnDeleteDownloadURL.clicked.connect(self.btnDeleteDownloadURLclicked)
         self.ui.btnSaveDownloadURL.clicked.connect(self.btnSaveDownloadURLclicked)
         self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
+        self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLCellChanged)
 
         # 新建窗口完毕
         self.showFavorite()
 
 
     # 具体的控件点击
+    def tableSearchURLCellChanged(self):
+        table = self.ui.tableSearchURL
+        try:
+            table.blockSignals(True)  # 避免自我触发
+            rst = read_table_current_line(table)  # 假如鼠标被移到其他行了，这里读到也是刚刚被更改的行，而不是当前行
+            print('准备update URL Xpath:', rst)
+            processDB.updateSeason(rst['ID'], rst['英文名'], rst['中文名'], rst['正在追'])
+        finally:
+            table.blockSignals(False)
 
     def btnSaveDownloadURLclicked(self):
         ''' 事实上这个功能是不需要的，每次cellchange后都存盘了 '''
@@ -184,7 +199,8 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.edit = True
         rst = read_table_current_line(self.ui.tableDownload)
         print('tableDownloadClicked: 当前行：',rst['URL'],rst['Xpath_title'],rst['Xpath_link'])
-        current_col = self.ui.tableDownload.horizontalHeaderItem(self.ui.tableDownload.currentColumn()).text()
+        current_col = getCurrColumnName(self.ui.tableDownload)
+        # current_col = self.ui.tableDownload.horizontalHeaderItem(self.ui.tableDownload.currentColumn()).text()
         # print(current_col)
         try:
             if current_col == 'URL':
@@ -221,6 +237,7 @@ class MainWindow(QMainWindow):
 
     def searchSeason(self):
         rstdata = processDB.selectSeasonByName(self.ui.edtName.text())
+        print('testtttt',rstdata)
         writeTable(rstdata, self.ui.tableSearchURL, 0)
 
 
