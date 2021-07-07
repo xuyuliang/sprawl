@@ -82,22 +82,39 @@ def deleteDownloadbySeasonID(seasonID):
 # insert_modifyDownloadURL(-1,274,'xxx','yyy','new')
 
 ### 处理play表
-# （1）写入一本剧
-# （2）删除一本剧，连带删除相关的所有season
-# （3）显示一本剧，连带显示所有的season
-# （4） 显示你收藏的所有剧
+# （1）写入一本剧，表示我正在追这本剧
+# （2）删除一本剧，表示不追了
+# （3）更新一本剧
+# （4）显示所有收藏的剧集并联动下载打卡日期
 
-def addPlay(ID,name,memotxt):
-    sql = "insert into play(ID,name,memotxt) values(?,?,?)"
-    cur.execute(sql, [ID,name,memotxt])
+def addPlay(seasonID,name,memotxt):
+    sql1 = "insert into play(name,memotxt) values(?,?)"
+    cur.execute(sql1, [name,memotxt])
+    playid = cur.lastrowid
+    sql2 = "update season set playid=? where ID =? "
+    cur.execute(sql2,[playid,seasonID])
     conn.commit()
 
 def deletePlay(ID):
     sql1 = "delete from play where ID = ?"
-    sql2 = "delete from season where playID = ?"
     cur.execute(sql1,[ID])
-    cur.execute(sql2,[ID])
     conn.commit()
+
+def updatePlay(ID,name,memotxt):
+    sql = "update play set name=? , memotxt = ? where ID = ?"
+    cur.execute(sql,[name,memotxt,ID])
+    conn.commit()
+
+def showFavoritesWithChaseDate():
+    sql = ''' 
+    SELECT p.ID, p.name, p.memotxt, pg.currDate from play as p 
+    INNER JOIN season as s on p.id = s.playID  
+    INNER join progress pg on s.id = pg.seasonID
+    '''
+    cur.execute(sql)
+    rst = cur.fetchall()
+    print(rst)
+    return rst
 
 def fetchPlayandSeasons(ID):
     sql1 = "select name,memotxt from play where ID = ?"
@@ -110,7 +127,8 @@ def fetchPlayandSeasons(ID):
     print("seasons:",result2)
     return (result1,result2)
 
-# addPlay(1,'Young Sheldon','备注 小谢尔顿')
+# addPlay(274,'Young Sheldon','备注 小谢尔顿')
+showFavoritesWithChaseDate()
 # s1,s2 = fetchPlayandSeasons(1)
 # print(s1)  # [('Young Sheldon', '备注 小谢尔顿')]
 # print(s2)  # [(4, 'Young Sheldon 第四季'), (5, 'Young Sheldon 第三季')]

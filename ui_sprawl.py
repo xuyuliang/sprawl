@@ -51,11 +51,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.textBrowser)
 
-        self.pushButton_2 = QPushButton(self.tab_2)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-
-        self.verticalLayout_4.addWidget(self.pushButton_2)
-
 
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
 
@@ -89,6 +84,9 @@ class Ui_MainWindow(object):
         self.edtName = QLineEdit(self.groupBox_2)
         self.edtName.setObjectName(u"edtName")
         self.edtName.setGeometry(QRect(91, 26, 133, 21))
+        self.pushButtonAddToFavorite = QPushButton(self.groupBox_2)
+        self.pushButtonAddToFavorite.setObjectName(u"pushButtonAddToFavorite")
+        self.pushButtonAddToFavorite.setGeometry(QRect(232, 24, 91, 24))
 
         self.verticalLayout_6.addWidget(self.groupBox_2)
 
@@ -138,7 +136,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.edtName.returnPressed.connect(self.btnSearchDownloadURL.click)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -154,7 +152,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
         ___qtablewidgetitem3 = self.tableFavorite.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65e5\u671f", None));
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6211\u7684\u6536\u85cf", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         ___qtablewidgetitem4 = self.tableSearchURL.horizontalHeaderItem(0)
@@ -164,8 +161,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem6 = self.tableSearchURL.horizontalHeaderItem(2)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"\u4e2d\u6587\u540d", None));
         ___qtablewidgetitem7 = self.tableSearchURL.horizontalHeaderItem(3)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u8ffd", None));
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u64ad", None));
         self.btnSearchDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
+        self.pushButtonAddToFavorite.setText(QCoreApplication.translate("MainWindow", u"\u6dfb\u52a0\u5230\u6536\u85cf", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         self.btnDeleteDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None))
         self.btnInsertDowloadURL.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u589e", None))

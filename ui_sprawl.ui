@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
@@ -55,13 +55,6 @@
            <widget class="QTextBrowser" name="textBrowser">
             <property name="openExternalLinks">
              <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>PushButton</string>
             </property>
            </widget>
           </item>
@@ -117,7 +110,7 @@
            </column>
            <column>
             <property name="text">
-             <string>正在追</string>
+             <string>正在播</string>
             </property>
            </column>
           </widget>
@@ -145,6 +138,19 @@
              <width>133</width>
              <height>21</height>
             </rect>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButtonAddToFavorite">
+           <property name="geometry">
+            <rect>
+             <x>232</x>
+             <y>24</y>
+             <width>91</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>添加到收藏</string>
            </property>
           </widget>
          </widget>

@@ -51,7 +51,7 @@ def read_table_current_line(table: QTableWidget):
         return None
     cols = table.columnCount()
     curr_row = table.currentItem().row()
-    # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在追': 0}
+    # 得出当前行的dict   如：{'id': 399, '英文名': 'Love, Victor ', '中文名': '爱你，维克托 第二季', '正在播': 0}
     row_dict = dict()
     for i in range(cols):
         row_dict[table.horizontalHeaderItem(i).text()] = table.item(curr_row, i).data(0)
@@ -122,19 +122,25 @@ class MainWindow(QMainWindow):
         self.ui.btnSaveDownloadURL.clicked.connect(self.btnSaveDownloadURLclicked)
         self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLCellChanged)
+        self.ui.pushButtonAddToFavorite.clicked.connect(self.addtoFavorite)
 
         # 新建窗口完毕
         self.showFavorite()
 
 
     # 具体的控件点击
+    def addtoFavorite(self):
+        rst = read_table_current_line(self.ui.tableSearchURL)
+        processDB.addPlay(rst['英文名'],rst['中文名'])
+
+
     def tableSearchURLCellChanged(self):
         table = self.ui.tableSearchURL
         try:
             table.blockSignals(True)  # 避免自我触发
             rst = read_table_current_line(table)  # 假如鼠标被移到其他行了，这里读到也是刚刚被更改的行，而不是当前行
             print('准备update URL Xpath:', rst)
-            processDB.updateSeason(rst['ID'], rst['英文名'], rst['中文名'], rst['正在追'])
+            processDB.updateSeason(rst['ID'], rst['英文名'], rst['中文名'], rst['正在播'])
         finally:
             table.blockSignals(False)
 
@@ -232,7 +238,7 @@ class MainWindow(QMainWindow):
             writeTable(rstdata, self.ui.tableDownload, 0, 1)
 
     def showFavorite(self):
-        rstdata = processDB.showFavoriteSeasons()
+        rstdata = processDB.showFavoritesWithChaseDate()
         writeTable(rstdata, self.ui.tableFavorite, 0)
 
     def searchSeason(self):
