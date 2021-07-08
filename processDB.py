@@ -93,6 +93,7 @@ def addPlay(seasonID,name,memotxt):
     playid = cur.lastrowid
     sql2 = "update season set playid=? where ID =? "
     cur.execute(sql2,[playid,seasonID])
+
     conn.commit()
 
 def deletePlay(ID):
@@ -107,9 +108,11 @@ def updatePlay(ID,name,memotxt):
 
 def showFavoritesWithChaseDate():
     sql = ''' 
-    SELECT p.ID, p.name, p.memotxt, pg.currDate from play as p 
+    SELECT p.ID, p.name, p.memotxt, min(c.dueDate) as due,pg.currDate from play as p 
     INNER JOIN season as s on p.id = s.playID  
-    INNER join progress pg on s.id = pg.seasonID
+    LEFT OUTER JOIN progress as pg on s.id = pg.seasonID
+    INNER JOIN calendar as c on s.id = c.seasonID
+    where c.dueDate > CURRENT_DATE 
     '''
     cur.execute(sql)
     rst = cur.fetchall()
@@ -139,13 +142,14 @@ showFavoritesWithChaseDate()
 # （2）修改 ；不要修改了，删了重写
 # （3）删除
 def showFavoriteSeasons():
-    sql ="select  s.ID ,s.enName,s.chName,c.dueDate " \
-    "from (Season s inner join calendar c on s.id = c.seasonid ) " \
-    "INNER join progress p on s.id = p.seasonID " \
-    "where S.valid is true " \
-    "and p.currDate < c.dueDate " \
-    "and c.dueDate < ?"
-
+    sql = '''
+    select  s.ID ,s.enName,s.chName,c.dueDate 
+    from (Season s inner join calendar c on s.id = c.seasonid ) 
+    INNER join progress p on s.id = p.seasonID 
+    where S.valid is true 
+    and p.currDate < c.dueDate 
+    and c.dueDate < ?
+    '''
     # currDate = datetime.datetime.now().strftime('%Y-%m-%d')
     currDate = datetime.datetime.now()
     cur.execute(sql,[currDate])
@@ -171,22 +175,13 @@ def addSeason(enName,chName):
     rows = cur.fetchall()
     seasonID = 9999
     if len(rows) > 0:
-        seasonID, = rows[0]
+        seasonID = rows[0]
     if len(rows) == 0:  # 没有
         sql = "insert into season(enName,chName) values(?,?)"
         cur.execute(sql,[enName,chName])
+        seasonID = cur.lastrowid
         conn.commit()
-        sql = "select ID from season where enName=? and chName=?"
-        cur.execute(sql, [enName, chName])
-        re = cur.fetchall()
-        if len(re)>0:
-            seasonID, = re[0]
-        else:
-            seasonID = 9999
-
     return seasonID
-
-
 
 def deleteSeason(ID):
     sql = "delete from season where ID = ? "
@@ -209,6 +204,7 @@ def updateSeason(ID,enName,chName,valid):
 # 写入一条记录
 def direct_insert_calendar(seasonID,dueDate,SnEm):
     sql = "select * from calendar where seasonID=? and dueDate =? and SnEM=?"
+
     cur.execute(sql,[seasonID,dueDate,SnEm])
     re = cur.fetchall()
     if len(re) > 0 :

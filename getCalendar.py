@@ -5,8 +5,8 @@ import time
 import processDB
 import requests
 from lxml import etree
-for month in (8,8):
-    url = 'http://huo360.cc/calendar?date=2021-'+str(month)+'-01'
+def refreshCalendar(year,month):
+    url = 'http://huo720.com/calendar?date='+str(year)+'-'+str(month)+'-01'
     r = requests.get(url)
     time.sleep(3)
     print(r.status_code)
@@ -28,3 +28,5 @@ for month in (8,8):
             processDB.addRecord_Calendar(date_riqi,enName,chName,sn)
             print(currday+"|"+ chName + "|"+ enName +"|"+sn)
 
+#测试
+refreshCalendar(2021,7)

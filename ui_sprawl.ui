@@ -24,43 +24,74 @@
        <attribute name="title">
         <string>我的收藏</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <widget class="QTableWidget" name="tableFavorite">
-            <column>
-             <property name="text">
-              <string>ID</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>英文名</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>中文名</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>日期</string>
-             </property>
-            </column>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTextBrowser" name="textBrowser">
-            <property name="openExternalLinks">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+       <widget class="QPushButton" name="pushButtonPunchin">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>下载打卡</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tableFavorite">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>761</width>
+          <height>571</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>名称</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>备注</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>下一集</string>
+         </property>
+         <property name="background">
+          <color>
+           <red>156</red>
+           <green>156</green>
+           <blue>156</blue>
+          </color>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>下载打卡</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QTextBrowser" name="textBrowser">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>621</y>
+          <width>761</width>
+          <height>191</height>
+         </rect>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">

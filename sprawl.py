@@ -131,7 +131,7 @@ class MainWindow(QMainWindow):
     # 具体的控件点击
     def addtoFavorite(self):
         rst = read_table_current_line(self.ui.tableSearchURL)
-        processDB.addPlay(rst['英文名'],rst['中文名'])
+        processDB.addPlay(rst['ID'],rst['英文名'],rst['中文名'])
 
 
     def tableSearchURLCellChanged(self):
@@ -239,6 +239,7 @@ class MainWindow(QMainWindow):
 
     def showFavorite(self):
         rstdata = processDB.showFavoritesWithChaseDate()
+        print(rstdata)
         writeTable(rstdata, self.ui.tableFavorite, 0)
 
     def searchSeason(self):
