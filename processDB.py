@@ -172,15 +172,17 @@ def selectSeasonByName(name):
 def addSeason(enName,chName):
     sql = "select ID from season where enName=? and chName=?"
     cur.execute(sql,[enName,chName])
-    rows = cur.fetchall()
+    rows = cur.fetchone()
+    # print('addSeason',rows,rows[0])
     seasonID = 9999
-    if len(rows) > 0:
-        seasonID = rows[0]
-    if len(rows) == 0:  # 没有
+    if rows is None:  # 没有
         sql = "insert into season(enName,chName) values(?,?)"
         cur.execute(sql,[enName,chName])
         seasonID = cur.lastrowid
+        print('in addSeason, lastrowid:',seasonID)
         conn.commit()
+    else:
+        seasonID = rows[0]
     return seasonID
 
 def deleteSeason(ID):
@@ -204,7 +206,7 @@ def updateSeason(ID,enName,chName,valid):
 # 写入一条记录
 def direct_insert_calendar(seasonID,dueDate,SnEm):
     sql = "select * from calendar where seasonID=? and dueDate =? and SnEM=?"
-
+    print('direct_insert_calendar',seasonID,dueDate,SnEm)
     cur.execute(sql,[seasonID,dueDate,SnEm])
     re = cur.fetchall()
     if len(re) > 0 :
