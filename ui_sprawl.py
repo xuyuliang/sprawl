@@ -134,6 +134,9 @@ class Ui_MainWindow(object):
         self.textBrowserUpdateCalendar = QTextBrowser(self.tab_3)
         self.textBrowserUpdateCalendar.setObjectName(u"textBrowserUpdateCalendar")
         self.textBrowserUpdateCalendar.setGeometry(QRect(10, 60, 751, 751))
+        self.pushButtonViewCalendar = QPushButton(self.tab_3)
+        self.pushButtonViewCalendar.setObjectName(u"pushButtonViewCalendar")
+        self.pushButtonViewCalendar.setGeometry(QRect(280, 16, 75, 24))
         self.tabWidget.addTab(self.tab_3, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
@@ -192,9 +195,10 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"Xpath_link", None));
         self.btnSaveDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u914d\u7f6e", None))
-        self.pushButtonUpdateCalendar.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u66f4\u65b0", None))
+        self.pushButtonUpdateCalendar.setText(QCoreApplication.translate("MainWindow", u"\u66f4\u65b0\u8282\u76ee\u5355", None))
         self.dateEditYearMonth.setDisplayFormat(QCoreApplication.translate("MainWindow", u"yyyy/M", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6708\u4efd", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u66f4\u65b0\u8282\u76ee\u5355", None))
+        self.pushButtonViewCalendar.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b\u8282\u76ee\u5355", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u8282\u76ee\u5355", None))
     # retranslateUi
 

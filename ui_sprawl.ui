@@ -287,7 +287,7 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>更新节目单</string>
+        <string>节目单</string>
        </attribute>
        <widget class="QPushButton" name="pushButtonUpdateCalendar">
         <property name="geometry">
@@ -299,7 +299,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>开始更新</string>
+         <string>更新节目单</string>
         </property>
        </widget>
        <widget class="QDateEdit" name="dateEditYearMonth">
@@ -336,6 +336,19 @@
           <width>751</width>
           <height>751</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButtonViewCalendar">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>16</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>查看节目单</string>
         </property>
        </widget>
       </widget>

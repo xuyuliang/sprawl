@@ -220,6 +220,27 @@ def addRecord_Calendar(dueDate, enName, chName, sn):
     direct_insert_calendar(seasonID,dueDate,sn)
 
 
+def viewCalendarbyMonth(year,month):
+    sql = '''
+    select  c.dueDate, s.enName,s.chName, c.SnEm 
+    from calendar c INNER JOIN season s 
+    on c.seasonID = s.id
+    where c.dueDate >= ? and c.dueDate < ?
+    ORDER by c.dueDate ,enName,chName,SnEm
+    '''
+    beginDate = datetime.date(year,month,1)
+    if month == 12:
+        endDate = datetime.date(year+1,1,1)
+    else:
+        endDate = datetime.date(year,month+1,1)
+    cur.execute(sql,[beginDate,endDate])
+    rst = cur.fetchall()
+    return rst
+
+# a = viewCalendarbyMonth(2021,8)
+# for i in a:
+#     print(i)
+
 # sriqi = "2021-06-01"
 # addRecord_Calendar(sriqi,"Young Sheldon 第四季","洋谢尔顿 第四季","s4e5")
 # direct_insert_calendar(1,sriqi,'haha')

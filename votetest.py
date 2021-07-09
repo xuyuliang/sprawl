@@ -8,8 +8,13 @@ def generate_decision():
     else:
         return 0
 
+
+
 good = 0 #用来放英明判断的计数
 # 让业委会的3个成员做1000次决策并投票
+
+
+
 for i in range(1000):
     a = generate_decision() #业委会成员A
     b = generate_decision() #业委会成员B

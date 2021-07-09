@@ -7,6 +7,18 @@ from PySide6.QtWidgets import QTextBrowser, QApplication
 import processDB
 import requests
 from lxml import etree
+def viewCalendar(year,month,displayWidget:QTextBrowser):
+    rst = processDB.viewCalendarbyMonth(year,month)
+    displayWidget.clear()
+    oldDate = None
+    for item in rst:
+        shortDate = item[0][0:10] #截取前10位
+        if shortDate != oldDate: # 当前日期变了
+            displayWidget.append(shortDate)
+        displayWidget.append('            ' + ' | ' + item[1] + ' | ' + item[2] + ' | ' + item[3])
+        oldDate = shortDate
+
+
 def refreshCalendar(year,month,displayWidget:QTextBrowser):
     strYearMonth1 = str(year)+'-'+str(month)+'-01'
     url = 'http://huo720.com/calendar?date='+strYearMonth1
@@ -29,8 +41,13 @@ def refreshCalendar(year,month,displayWidget:QTextBrowser):
         SnEm = txt.xpath('//*[@id='+riqi+']/a/div/div[2]/div[1]/text()')
         ziped = zip(chNames,enNames,SnEm)
         for item in ziped:
-            print(item)
+            # print(item)
             chName,enName,sn = item
+            if  len(chName)==0 or chName.isspace() :
+                chName = enName
+            if  len(enName)==0 or enName.isspace():  #网站会出现enName是空的，但是chName中写了英文名的情况
+                print('哎呀哎呀')
+                enName = chName
             processDB.addRecord_Calendar(date_riqi,enName,chName,sn)
             displayWidget.append(currday+"|"+ chName + "|"+ enName +"|"+sn)
             QApplication.processEvents()

@@ -128,11 +128,19 @@ class MainWindow(QMainWindow):
         self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLCellChanged)
         self.ui.pushButtonAddToFavorite.clicked.connect(self.addtoFavorite)
         self.ui.pushButtonUpdateCalendar.clicked.connect(self.pubshButtonUpdateCalendarClicked)
+        self.ui.pushButtonViewCalendar.clicked.connect(self.viewCalendar)
         # 新建窗口完毕
         self.showFavorite()
 
 
     # 具体的控件点击
+    def viewCalendar(self):
+        valueofdateEdit = self.ui.dateEditYearMonth.date()
+        # print(valueofdateEdit.year(),valueofdateEdit.month())
+        displayWidget = self.ui.textBrowserUpdateCalendar
+        BroadcastingCalendar.viewCalendar(valueofdateEdit.year(),valueofdateEdit.month(),displayWidget)
+
+
     def pubshButtonUpdateCalendarClicked(self):
         valueofdateEdit = self.ui.dateEditYearMonth.date()
         # print(valueofdateEdit.year(),valueofdateEdit.month())
