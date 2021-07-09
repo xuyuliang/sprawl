@@ -1,9 +1,13 @@
+import datetime
+from time import strftime
+
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtCore import QEvent, QObject
 from PySide6.QtGui import Qt
 
 import processDB
 import showHTMLsnippet
+import BroadcastingCalendar
 import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget, QHeaderView
@@ -123,12 +127,19 @@ class MainWindow(QMainWindow):
         self.ui.tableDownload.cellChanged.connect(self.tableDownloadCellChanged)
         self.ui.tableSearchURL.cellChanged.connect(self.tableSearchURLCellChanged)
         self.ui.pushButtonAddToFavorite.clicked.connect(self.addtoFavorite)
-
+        self.ui.pushButtonUpdateCalendar.clicked.connect(self.pubshButtonUpdateCalendarClicked)
         # 新建窗口完毕
         self.showFavorite()
 
 
     # 具体的控件点击
+    def pubshButtonUpdateCalendarClicked(self):
+        valueofdateEdit = self.ui.dateEditYearMonth.date()
+        # print(valueofdateEdit.year(),valueofdateEdit.month())
+        displayWidget = self.ui.textBrowserUpdateCalendar
+        BroadcastingCalendar.refreshCalendar(valueofdateEdit.year(),valueofdateEdit.month(),displayWidget)
+
+
     def addtoFavorite(self):
         rst = read_table_current_line(self.ui.tableSearchURL)
         processDB.addPlay(rst['ID'],rst['英文名'],rst['中文名'])
@@ -241,6 +252,9 @@ class MainWindow(QMainWindow):
         rstdata = processDB.showFavoritesWithChaseDate()
         print(rstdata)
         writeTable(rstdata, self.ui.tableFavorite, 0)
+        #设置节目播出表时间选择框的默认日期
+        today = datetime.date.today()
+        self.ui.dateEditYearMonth.setDate(today)
 
     def searchSeason(self):
         rstdata = processDB.selectSeasonByName(self.ui.edtName.text())

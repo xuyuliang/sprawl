@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
@@ -284,6 +284,60 @@
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>更新节目单</string>
+       </attribute>
+       <widget class="QPushButton" name="pushButtonUpdateCalendar">
+        <property name="geometry">
+         <rect>
+          <x>197</x>
+          <y>16</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>开始更新</string>
+        </property>
+       </widget>
+       <widget class="QDateEdit" name="dateEditYearMonth">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>16</y>
+          <width>110</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="displayFormat">
+         <string>yyyy/M</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>55</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>选择月份</string>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="textBrowserUpdateCalendar">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>60</y>
+          <width>751</width>
+          <height>751</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

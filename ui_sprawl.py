@@ -120,6 +120,21 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.addWidget(self.groupBox_3)
 
         self.tabWidget.addTab(self.tab, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.pushButtonUpdateCalendar = QPushButton(self.tab_3)
+        self.pushButtonUpdateCalendar.setObjectName(u"pushButtonUpdateCalendar")
+        self.pushButtonUpdateCalendar.setGeometry(QRect(197, 16, 75, 24))
+        self.dateEditYearMonth = QDateEdit(self.tab_3)
+        self.dateEditYearMonth.setObjectName(u"dateEditYearMonth")
+        self.dateEditYearMonth.setGeometry(QRect(70, 16, 110, 22))
+        self.label = QLabel(self.tab_3)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(10, 20, 55, 16))
+        self.textBrowserUpdateCalendar = QTextBrowser(self.tab_3)
+        self.textBrowserUpdateCalendar.setObjectName(u"textBrowserUpdateCalendar")
+        self.textBrowserUpdateCalendar.setGeometry(QRect(10, 60, 751, 751))
+        self.tabWidget.addTab(self.tab_3, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
@@ -131,7 +146,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.edtName.returnPressed.connect(self.btnSearchDownloadURL.click)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -177,5 +192,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"Xpath_link", None));
         self.btnSaveDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u914d\u7f6e", None))
+        self.pushButtonUpdateCalendar.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u66f4\u65b0", None))
+        self.dateEditYearMonth.setDisplayFormat(QCoreApplication.translate("MainWindow", u"yyyy/M", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6708\u4efd", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u66f4\u65b0\u8282\u76ee\u5355", None))
     # retranslateUi
 
