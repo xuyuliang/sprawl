@@ -134,6 +134,7 @@ class Ui_MainWindow(object):
         self.textBrowserUpdateCalendar = QTextBrowser(self.tab_3)
         self.textBrowserUpdateCalendar.setObjectName(u"textBrowserUpdateCalendar")
         self.textBrowserUpdateCalendar.setGeometry(QRect(10, 60, 751, 751))
+        self.textBrowserUpdateCalendar.setTextInteractionFlags(Qt.LinksAccessibleByKeyboard|Qt.LinksAccessibleByMouse|Qt.TextBrowserInteraction|Qt.TextEditable|Qt.TextEditorInteraction|Qt.TextSelectableByKeyboard|Qt.TextSelectableByMouse)
         self.pushButtonViewCalendar = QPushButton(self.tab_3)
         self.pushButtonViewCalendar.setObjectName(u"pushButtonViewCalendar")
         self.pushButtonViewCalendar.setGeometry(QRect(280, 16, 75, 24))

@@ -19,6 +19,7 @@ def viewCalendar(year,month,displayWidget:QTextBrowser):
         oldDate = shortDate
 
 
+
 def refreshCalendar(year,month,displayWidget:QTextBrowser):
     strYearMonth1 = str(year)+'-'+str(month)+'-01'
     url = 'http://huo720.com/calendar?date='+strYearMonth1
