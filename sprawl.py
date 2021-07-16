@@ -1,16 +1,16 @@
 import datetime
 from time import strftime
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import QEvent, QObject
-from PySide6.QtGui import Qt
+from PySide6.QtGui import Qt, QTextDocument, QTextCharFormat, QBrush, QColor
 
 import processDB
 import showHTMLsnippet
 import BroadcastingCalendar
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget, QHeaderView
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QTableWidget, QHeaderView, QTextBrowser
 from ui_sprawl import Ui_MainWindow
 
 # 公用的函数们
@@ -134,11 +134,26 @@ class MainWindow(QMainWindow):
 
 
     # 具体的控件点击
+    def highlightWord(self,myword:str,textbrowser:QTextBrowser):
+        found = False
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 25))
+        brush.setColor(Qt.yellow)
+        color_format = QTextCharFormat()
+        color_format.setBackground(brush)
+        highlight_cursor = textbrowser.document().find(myword, QTextDocument.FindWholeWords)
+        while highlight_cursor != None:
+            highlight_cursor = textbrowser.document().find(myword, QTextDocument.FindWholeWords)
+            highlight_cursor.mergeCharFormat(color_format)
+
+
+
     def viewCalendar(self):
         valueofdateEdit = self.ui.dateEditYearMonth.date()
         # print(valueofdateEdit.year(),valueofdateEdit.month())
         displayWidget = self.ui.textBrowserUpdateCalendar
         BroadcastingCalendar.viewCalendar(valueofdateEdit.year(),valueofdateEdit.month(),displayWidget)
+        self.highlightWord('Big',displayWidget)
+
 
 
     def pubshButtonUpdateCalendarClicked(self):
