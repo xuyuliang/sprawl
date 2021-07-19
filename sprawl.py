@@ -3,7 +3,7 @@ from time import strftime
 
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import QEvent, QObject
-from PySide6.QtGui import Qt, QTextDocument, QTextCharFormat, QBrush, QColor
+from PySide6.QtGui import Qt, QTextDocument, QTextCharFormat, QBrush, QColor, QTextCursor
 
 import processDB
 import showHTMLsnippet
@@ -129,20 +129,26 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonAddToFavorite.clicked.connect(self.addtoFavorite)
         self.ui.pushButtonUpdateCalendar.clicked.connect(self.pubshButtonUpdateCalendarClicked)
         self.ui.pushButtonViewCalendar.clicked.connect(self.viewCalendar)
+        self.ui.pushButtonSearchCalendar.clicked.connect(self.searchCalendar)
         # 新建窗口完毕
         self.showFavorite()
 
 
     # 具体的控件点击
+    def searchCalendar(self):
+        print('正在搜索',self.ui.edtSearchCalendar.text())
+        self.highlightWord(self.ui.edtSearchCalendar.text(),self.ui.textBrowserUpdateCalendar)
     def highlightWord(self,myword:str,textbrowser:QTextBrowser):
-        found = False
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 25))
         brush.setColor(Qt.yellow)
         color_format = QTextCharFormat()
         color_format.setBackground(brush)
-        highlight_cursor = textbrowser.document().find(myword, QTextDocument.FindWholeWords)
-        while highlight_cursor != None:
-            highlight_cursor = textbrowser.document().find(myword, QTextDocument.FindWholeWords)
+
+        # highlight_cursor = textbrowser.document().find(myword, QTextDocument.FindWholeWords)
+        highlight_cursor = QTextCursor()
+        while (highlight_cursor != None) and ( not highlight_cursor.atEnd()):
+            print('atend:',highlight_cursor.atEnd(),'cursor:',highlight_cursor)
+            highlight_cursor = textbrowser.document().find(myword, highlight_cursor, QTextDocument.FindWholeWords)
             highlight_cursor.mergeCharFormat(color_format)
 
 
@@ -152,7 +158,7 @@ class MainWindow(QMainWindow):
         # print(valueofdateEdit.year(),valueofdateEdit.month())
         displayWidget = self.ui.textBrowserUpdateCalendar
         BroadcastingCalendar.viewCalendar(valueofdateEdit.year(),valueofdateEdit.month(),displayWidget)
-        self.highlightWord('Big',displayWidget)
+        # self.highlightWord('Big',displayWidget)
 
 
 

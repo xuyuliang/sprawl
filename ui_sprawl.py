@@ -134,10 +134,16 @@ class Ui_MainWindow(object):
         self.textBrowserUpdateCalendar = QTextBrowser(self.tab_3)
         self.textBrowserUpdateCalendar.setObjectName(u"textBrowserUpdateCalendar")
         self.textBrowserUpdateCalendar.setGeometry(QRect(10, 60, 751, 751))
-        self.textBrowserUpdateCalendar.setTextInteractionFlags(Qt.LinksAccessibleByKeyboard|Qt.LinksAccessibleByMouse|Qt.TextBrowserInteraction|Qt.TextEditable|Qt.TextEditorInteraction|Qt.TextSelectableByKeyboard|Qt.TextSelectableByMouse)
+        self.textBrowserUpdateCalendar.setTextInteractionFlags(Qt.LinksAccessibleByKeyboard|Qt.LinksAccessibleByMouse|Qt.TextBrowserInteraction|Qt.TextSelectableByKeyboard|Qt.TextSelectableByMouse)
         self.pushButtonViewCalendar = QPushButton(self.tab_3)
         self.pushButtonViewCalendar.setObjectName(u"pushButtonViewCalendar")
         self.pushButtonViewCalendar.setGeometry(QRect(280, 16, 75, 24))
+        self.pushButtonSearchCalendar = QPushButton(self.tab_3)
+        self.pushButtonSearchCalendar.setObjectName(u"pushButtonSearchCalendar")
+        self.pushButtonSearchCalendar.setGeometry(QRect(677, 17, 75, 24))
+        self.edtSearchCalendar = QLineEdit(self.tab_3)
+        self.edtSearchCalendar.setObjectName(u"edtSearchCalendar")
+        self.edtSearchCalendar.setGeometry(QRect(550, 20, 113, 21))
         self.tabWidget.addTab(self.tab_3, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
@@ -200,6 +206,7 @@ class Ui_MainWindow(object):
         self.dateEditYearMonth.setDisplayFormat(QCoreApplication.translate("MainWindow", u"yyyy/M", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6708\u4efd", None))
         self.pushButtonViewCalendar.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b\u8282\u76ee\u5355", None))
+        self.pushButtonSearchCalendar.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b\u8282\u76ee\u5355", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u8282\u76ee\u5355", None))
     # retranslateUi
 

@@ -354,6 +354,29 @@
          <string>查看节目单</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButtonSearchCalendar">
+        <property name="geometry">
+         <rect>
+          <x>677</x>
+          <y>17</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>查看节目单</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="edtSearchCalendar">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>20</y>
+          <width>113</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
