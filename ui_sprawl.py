@@ -24,12 +24,12 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tab_2 = QWidget()
-        self.tab_2.setObjectName(u"tab_2")
-        self.pushButtonPunchin = QPushButton(self.tab_2)
+        self.tab_favourite = QWidget()
+        self.tab_favourite.setObjectName(u"tab_favourite")
+        self.pushButtonPunchin = QPushButton(self.tab_favourite)
         self.pushButtonPunchin.setObjectName(u"pushButtonPunchin")
         self.pushButtonPunchin.setGeometry(QRect(9, 9, 75, 24))
-        self.tableFavorite = QTableWidget(self.tab_2)
+        self.tableFavorite = QTableWidget(self.tab_favourite)
         if (self.tableFavorite.columnCount() < 5):
             self.tableFavorite.setColumnCount(5)
         __qtablewidgetitem = QTableWidgetItem()
@@ -45,11 +45,11 @@ class Ui_MainWindow(object):
         self.tableFavorite.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.tableFavorite.setObjectName(u"tableFavorite")
         self.tableFavorite.setGeometry(QRect(10, 40, 761, 571))
-        self.textBrowser = QTextBrowser(self.tab_2)
+        self.textBrowser = QTextBrowser(self.tab_favourite)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setGeometry(QRect(10, 621, 761, 191))
         self.textBrowser.setOpenExternalLinks(True)
-        self.tabWidget.addTab(self.tab_2, "")
+        self.tabWidget.addTab(self.tab_favourite, "")
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.verticalLayout_6 = QVBoxLayout(self.tab)
@@ -156,7 +156,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.edtName.returnPressed.connect(self.btnSearchDownloadURL.click)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -175,7 +175,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u96c6", None));
         ___qtablewidgetitem4 = self.tableFavorite.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u8f7d\u6253\u5361", None));
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6211\u7684\u6536\u85cf", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_favourite), QCoreApplication.translate("MainWindow", u"\u6211\u7684\u6536\u85cf", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
         ___qtablewidgetitem5 = self.tableSearchURL.horizontalHeaderItem(0)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"ID", None));

@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QTextBrowser, QApplication
 import processDB
 import requests
 from lxml import etree
-def viewCalendar(year,month,displayWidget:QTextBrowser):
+def viewCalendar(year,month,displayWidget:QTextBrowser,searchWord=None):
     rst = processDB.viewCalendarbyMonth(year,month)
     displayWidget.clear()
     oldDate = None

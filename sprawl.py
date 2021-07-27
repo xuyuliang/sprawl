@@ -130,26 +130,44 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonUpdateCalendar.clicked.connect(self.pubshButtonUpdateCalendarClicked)
         self.ui.pushButtonViewCalendar.clicked.connect(self.viewCalendar)
         self.ui.pushButtonSearchCalendar.clicked.connect(self.searchCalendar)
+        self.ui.tabWidget.tabBarClicked.connect(self.tabBarClicked)
         # 新建窗口完毕
         self.showFavorite()
 
 
     # 具体的控件点击
+    def tabBarClicked(self):
+        currtab = self.ui.tabWidget.currentIndex()
+        # print(currtab)
+        if currtab == 2:  # 我的收藏
+            self.showFavorite()
+
+
     def searchCalendar(self):
         print('正在搜索',self.ui.edtSearchCalendar.text())
         self.highlightWord(self.ui.edtSearchCalendar.text(),self.ui.textBrowserUpdateCalendar)
+
     def highlightWord(self,myword:str,textbrowser:QTextBrowser):
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 25))
         brush.setColor(Qt.yellow)
         color_format = QTextCharFormat()
         color_format.setBackground(brush)
 
-        # highlight_cursor = textbrowser.document().find(myword, QTextDocument.FindWholeWords)
-        highlight_cursor = QTextCursor()
-        while (highlight_cursor != None) and ( not highlight_cursor.atEnd()):
+        highlight_cursor = QTextCursor(textbrowser.document())
+        cursor = QTextCursor(textbrowser.document())
+        cursor.beginEditBlock()
+
+        highlight_cursor = textbrowser.document().find(myword, highlight_cursor)
+        highlight_cursor.mergeCharFormat(color_format)
+        i = 1
+        while (highlight_cursor != None) and ( not highlight_cursor.atEnd() and (i<3000)):
+            i=i+1
+            print(i)
             print('atend:',highlight_cursor.atEnd(),'cursor:',highlight_cursor)
-            highlight_cursor = textbrowser.document().find(myword, highlight_cursor, QTextDocument.FindWholeWords)
+            highlight_cursor = textbrowser.document().find(myword, highlight_cursor)
             highlight_cursor.mergeCharFormat(color_format)
+
+        cursor.endEditBlock()
 
 
 
@@ -287,8 +305,13 @@ class MainWindow(QMainWindow):
 
     def searchSeason(self):
         rstdata = processDB.selectSeasonByName(self.ui.edtName.text())
-        print('testtttt',rstdata)
+        # print('testtttt',rstdata)
         writeTable(rstdata, self.ui.tableSearchURL, 0)
+        item = QtWidgets.QTableWidgetItem()
+        row = self.ui.tableSearchURL.rowAt(2)
+        print(row)
+        self.ui.tableSearchURL.selectRow(row)
+        # self.ui.setFocus(Qt.MouseFocusReason)
 
 
 if __name__ == "__main__":
