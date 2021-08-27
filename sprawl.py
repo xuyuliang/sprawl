@@ -83,7 +83,7 @@ def writeTable(data, table : QTableWidget, *HiddenColumns):
     try:
         table.blockSignals(True)
         print(data)
-        if (len(data) == None):  # 如果数据为空，则画一个空表
+        if (len(data) == 0):  # 如果数据为空，则画一个空表
             row = 0
             col = 0
         else:
@@ -308,9 +308,7 @@ class MainWindow(QMainWindow):
         # print('testtttt',rstdata)
         writeTable(rstdata, self.ui.tableSearchURL, 0)
         item = QtWidgets.QTableWidgetItem()
-        row = self.ui.tableSearchURL.rowAt(2)
-        print(row)
-        self.ui.tableSearchURL.selectRow(row)
+        self.ui.tableSearchURL.selectRow(0)
         # self.ui.setFocus(Qt.MouseFocusReason)
 
 

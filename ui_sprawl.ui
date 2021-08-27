@@ -107,7 +107,7 @@
            </size>
           </property>
           <property name="title">
-           <string>GroupBox</string>
+           <string>在节目单中搜索</string>
           </property>
           <widget class="QTableWidget" name="tableSearchURL">
            <property name="geometry">
@@ -189,7 +189,7 @@
         <item>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
-           <string>GroupBox</string>
+           <string>配置美剧对应的Xpath用于提取下载链接</string>
           </property>
           <widget class="QPushButton" name="btnDeleteDownloadURL">
            <property name="geometry">
@@ -364,7 +364,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>查看节目单</string>
+         <string>搜索节目单</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="edtSearchCalendar">

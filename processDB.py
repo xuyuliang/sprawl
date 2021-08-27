@@ -108,11 +108,12 @@ def updatePlay(ID,name,memotxt):
 
 def showFavoritesWithChaseDate():
     sql = ''' 
-    SELECT p.ID, p.name, p.memotxt, min(c.dueDate) as due,pg.currDate from play as p 
-    INNER JOIN season as s on p.id = s.playID  
-    LEFT OUTER JOIN progress as pg on s.id = pg.seasonID
-    INNER JOIN calendar as c on s.id = c.seasonID
-    where c.dueDate > CURRENT_DATE 
+    SELECT p.ID, p.name, p.memotxt, min(c.dueDate) as due, pg.currDate
+    from play as p INNER JOIN season as s on p.id = s.playID 
+	LEFT OUTER JOIN progress as pg on s.id = pg.seasonID
+	INNER JOIN calendar as c on s.id = c.seasonID
+	where c.dueDate > CURRENT_DATE
+	group by p.id
     '''
     cur.execute(sql)
     rst = cur.fetchall()

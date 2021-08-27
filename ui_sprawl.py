@@ -176,7 +176,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4 = self.tableFavorite.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u8f7d\u6253\u5361", None));
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_favourite), QCoreApplication.translate("MainWindow", u"\u6211\u7684\u6536\u85cf", None))
-        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"\u5728\u8282\u76ee\u5355\u4e2d\u641c\u7d22", None))
         ___qtablewidgetitem5 = self.tableSearchURL.horizontalHeaderItem(0)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"ID", None));
         ___qtablewidgetitem6 = self.tableSearchURL.horizontalHeaderItem(1)
@@ -187,7 +187,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"\u6b63\u5728\u64ad", None));
         self.btnSearchDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
         self.pushButtonAddToFavorite.setText(QCoreApplication.translate("MainWindow", u"\u6dfb\u52a0\u5230\u6536\u85cf", None))
-        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"\u914d\u7f6e\u7f8e\u5267\u5bf9\u5e94\u7684Xpath\u7528\u4e8e\u63d0\u53d6\u4e0b\u8f7d\u94fe\u63a5", None))
         self.btnDeleteDownloadURL.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664", None))
         self.btnInsertDowloadURL.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u589e", None))
         ___qtablewidgetitem9 = self.tableDownload.horizontalHeaderItem(0)
@@ -206,7 +206,7 @@ class Ui_MainWindow(object):
         self.dateEditYearMonth.setDisplayFormat(QCoreApplication.translate("MainWindow", u"yyyy/M", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6708\u4efd", None))
         self.pushButtonViewCalendar.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b\u8282\u76ee\u5355", None))
-        self.pushButtonSearchCalendar.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b\u8282\u76ee\u5355", None))
+        self.pushButtonSearchCalendar.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22\u8282\u76ee\u5355", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u8282\u76ee\u5355", None))
     # retranslateUi
 

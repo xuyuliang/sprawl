@@ -47,7 +47,7 @@ def refreshCalendar(year,month,displayWidget:QTextBrowser):
             if  len(chName)==0 or chName.isspace() :
                 chName = enName
             if  len(enName)==0 or enName.isspace():  #网站会出现enName是空的，但是chName中写了英文名的情况
-                print('哎呀哎呀')
+                # print('哎呀哎呀')
                 enName = chName
             processDB.addRecord_Calendar(date_riqi,enName,chName,sn)
             displayWidget.append(currday+"|"+ chName + "|"+ enName +"|"+sn)
